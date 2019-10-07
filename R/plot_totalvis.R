@@ -34,8 +34,7 @@ function(x, num_load = 5, rug = TRUE, ...) {
                          "topleft", "topright")
   
   ## Names and color for legend in plot
-  loading_ord <- order(abs(pca_object$rotation[, location]), 
-  										 decreasing = T)
+  loading_ord <- order(abs(pca_object$rotation[, location]), decreasing = T)
   top_loads <- pca_object$rotation[loading_ord[1:num_load], location, 
                                    drop = FALSE]
   load_df <- data.frame(name = rownames(top_loads), 
