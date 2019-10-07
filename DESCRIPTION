@@ -1,0 +1,14 @@
+Package: totalvis
+Type: Package
+Title: Matrix decompositions for visualizing effects of related features in black-box models
+Version: 0.0.0.9000
+Date: 2019-09-30
+Author: Nick Seedorff
+Maintainer: Nick Seedorff <nickseedorff@gmail.com>
+Description: Visualization of blackbox methods using PCA.
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 6.1.1
+Imports:
+    graphics,
+    stats
