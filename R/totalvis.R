@@ -1,4 +1,4 @@
-#' Calculate and plot partial depedence plots for principal components
+#' Creat an object for visiualing pdp plots for a principal component
 #' @param model A fitted model object of an appropriate class
 #' @param data Dataframe of matrix of numeric type (Note: Excludes the outcome 
 #' or the outcome is specified with'outcome')
