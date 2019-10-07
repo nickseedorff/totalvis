@@ -48,7 +48,8 @@ function(model, data, location = 1, samp_size = 20, num_load = 5,
   ## Apply pdp function for regression or classification
   pred_obj <- structure(list(unique_val = unique_val, location = location, 
   													 model = model, pca_object = pca_dat, 
-  													 feature = NULL), class = c(substring(type, 1, 3)))
+  													 feature = NULL), 
+  											class = c(substring(type, 1, 3)))
   pred_vec <- pred_val(pred_obj)
   
   
