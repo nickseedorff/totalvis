@@ -66,13 +66,12 @@ function(model, data, type = "regression", location = 1, samp_size = 100,
   pred_obj <- structure(list(unique_val = unique_val, location = location, 
   													 model = model, pca_object = pca_dat, 
   													 feature = feature, data = mat, pin = pin), 
-  													 class = class_use)
+  											class = class_use)
   pred_vec <- pred_val(pred_obj)
   
   ## Store prediction results in a dataframe and sort by unique_val
   if (is.null(pin)) {
-    pred_df <- data.frame(avg_pred = pred_vec,
-  											x_vals = unique_val)
+    pred_df <- data.frame(avg_pred = pred_vec,x_vals = unique_val)
     pred_df <- pred_df[order(pred_df$x_vals), ]
   } else {
   	pred_df <- t(pred_vec)
