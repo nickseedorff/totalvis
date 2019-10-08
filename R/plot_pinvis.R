@@ -16,7 +16,7 @@ function(x, rug = TRUE, ...) {
   plot(pred_df$pin_mean, pred_df$avg_pred, type = "l", 
        xlab = paste0("Pinned Feature: ", pin), 
        main = paste0("Total Effect: PC = ", location, ", Pin = ", pin),
-       ylab = expression(hat(y)), col = "dodgerblue", lwd = 4)
+       ylab = "yhat", col = "dodgerblue", lwd = 4)
   
   if (rug) {
     rug(pred_df$pin_mean)

@@ -5,13 +5,13 @@
 \title{Diagnostic plot for assessing effects of individual features on a prinicapl 
 component}
 \usage{
-totalvis_diag(model, data, location = 1, samp_size = 20,
-  num_load = 5, type = "regresson")
+totalvis_diag(model, X, location = 1, samp_size = 20, num_load = 5,
+  type = "regresson")
 }
 \arguments{
 \item{model}{A fitted model object to visualize}
 
-\item{data}{A df or matrix that does not contain the outcome}
+\item{X}{Design matrix that the object was trained on}
 
 \item{location}{Principal component to impute}
 

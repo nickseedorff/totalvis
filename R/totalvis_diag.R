@@ -1,7 +1,7 @@
 #' Diagnostic plot for assessing effects of individual features on a prinicapl 
 #' component
 #' @param model A fitted model object to visualize
-#' @param data A df or matrix that does not contain the outcome
+#' @param X Design matrix that the object was trained on
 #' @param type Outcome type, either 'classification' (binary) or 'regression'
 #' @param location Principal component to impute
 #' @param samp_size Number of steps to take in PC direction
@@ -9,7 +9,7 @@
 #' @export
 
 totalvis_diag <-
-function(model, data, location = 1, samp_size = 20, num_load = 5, 
+function(model, X, location = 1, samp_size = 20, num_load = 5, 
          type = "regresson") {
   
   if (!is.numeric(location) | length(location) != 1) {
@@ -17,10 +17,10 @@ function(model, data, location = 1, samp_size = 20, num_load = 5,
   }
   
   ## convert to a matrix if input is a dataframe
-  if (class(data) != "matrix") {
-    mat <- as.matrix(data)
+  if (class(X) != "matrix") {
+    mat <- as.matrix(X)
   } else {
-    mat <- data
+    mat <- X
   }
   
   ## Select minimum of number of feates and num_load
@@ -53,7 +53,7 @@ function(model, data, location = 1, samp_size = 20, num_load = 5,
   pred_vec <- pred_val(pred_obj)
   
   
-  ## Apply pdp function for regression
+  ## Apply pdp function over individual features
   pred_obj <- structure(list(features = rownames(top_loads), 
                              unique_val = unique_val, location = location, 
                              model = model, pca_object = pca_dat, 

@@ -1,12 +1,12 @@
 #' Creat an object for visiualing pdp plots for a principal component
 #' @param model A fitted model object of an appropriate class
-#' @param data Dataframe of matrix of numeric type (Note: Excludes the outcome 
-#' or the outcome is specified with'outcome')
+#' @param X Design matrix that the object was trained on
 #' @param type Outcome type, either 'classification' (binary) or 'regression'
 #' @param location Integer of principal component to visualize
 #' @param samp_size Number of unique PC values marginalize and plot
 #' @param feature Feature to plot a partial dependence plot for
 #' @param pin Feature to pin pdp plot to over a range of a principal component
+#' @param ice Logical, options to include individual expectation curves
 #' @return A pdp style plot of the specified principal component
 #' @examples
 #' @import graphics
@@ -15,8 +15,8 @@
 
 
 totalvis <-
-function(model, data, type = "regression", location = 1, samp_size = 100,
-         feature = NULL, pin = NULL) {
+function(model, X, type = "regression", location = 1, samp_size = 100,
+         feature = NULL, pin = NULL, ice = FALSE) {
   
   ## Ensure location is an integer
   if ((!is.numeric(location) | length(location) != 1) & !is.null(location)){
@@ -26,14 +26,20 @@ function(model, data, type = "regression", location = 1, samp_size = 100,
   ## Warning of location and feature are supplied
   if (!is.null(location) & !is.null(feature)) {
     warning("Feature input overrides location. Plotting this object will return
-             a standard partial depedence plot.")
+             a standard partial depedence or ice plot.")
   }
   
+  ## Can only create ice curves if feature and pin a null
+  if (!is.null(pin) & ice) {
+    stop("Ice curves are only implemented when pin is set to null")
+  }
+  
+  
   ## convert to a matrix if input is a dataframe
-  if (class(data) != "matrix") {
-    mat <- as.matrix(data)
+  if (class(X) != "matrix") {
+    mat <- as.matrix(X)
   } else {
-    mat <- data
+    mat <- X
   }
   
   ## Decompose the matrix, keep unique values for the feature
@@ -59,7 +65,7 @@ function(model, data, type = "regression", location = 1, samp_size = 100,
   if (!is.null(pin)) {
     class_use <- paste0("pin", c(substring(type, 1, 3)))
   } else {
-    class_use <- c(substring(type, 1, 3))
+    class_use <- substring(type, 1, 3)
   }
   
   ## Apply pdp function for regression or classification
@@ -69,25 +75,45 @@ function(model, data, type = "regression", location = 1, samp_size = 100,
   											class = class_use)
   pred_vec <- pred_val(pred_obj)
   
+  ## calculate curves for ice plots
+  if (ice) {
+    class_use <- paste0("ice", substring(type, 1, 3))
+    pred_ice <- structure(list(unique_val = sort(unique_val), 
+                               location = location, 
+                               model = model, pca_object = pca_dat,
+                               feature = feature, data = mat), 
+                          class = class_use)
+    ice_mat <- pred_val(pred_ice)
+  }
+  
+  
   ## Store prediction results in a dataframe and sort by unique_val
   if (is.null(pin)) {
-    pred_df <- data.frame(avg_pred = pred_vec,x_vals = unique_val)
+    pred_df <- data.frame(avg_pred = pred_vec, x_vals = unique_val)
     pred_df <- pred_df[order(pred_df$x_vals), ]
   } else {
-  	pred_df <- t(pred_vec)
+  	pred_df <- as.data.frame(t(pred_vec))
   	colnames(pred_df) <- c("avg_pred", "pin_mean", "pin_median")
   	pred_df <- pred_df[order(pred_df$pin_mean), ] 
   }
 
-  ## Return a totalvis or featvis object
-  if (is.null(feature) & is.null(pin)) {
+  ## Return various types of objects to plot
+  if (is.null(feature) & is.null(pin) & !ice) {
     structure(list(pred_df = pred_df, location = location, 
     							 pca_object = pca_dat), class = "totalvis")
+  } else if (ice & is.null(feature)){
+    structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
+                   ice_mat = ice_mat, location = location,
+                   pca_object = pca_dat), class = "totalice")
+  } else if (ice & !is.null(feature)){
+    structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
+                   ice_mat = ice_mat, data = mat, feature = feature), 
+              class = "featice")  
   } else if (is.null(pin)){
     structure(list(pred_df = pred_df, feature = feature,
                    data = mat), class = "featvis")
   } else {
     structure(list(pred_df = pred_df, pin = pin, location = location), 
               class = "pinvis")
-  }
+  } 
 }

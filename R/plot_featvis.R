@@ -16,7 +16,7 @@ function(x, rug = TRUE, ...) {
   plot(pred_df$x_vals, pred_df$avg_pred, type = "l", 
        xlab = feature, 
        main = paste0("PDP Plot of ", feature),
-       ylab = expression(hat(y)), col = "dodgerblue", lwd = 4)
+       ylab = "yhat", col = "dodgerblue", lwd = 4)
   
   if (rug) {
     rug(data[, feature])

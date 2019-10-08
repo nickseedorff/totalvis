@@ -2,16 +2,15 @@
 % Please edit documentation in R/totalvis.R
 \name{totalvis}
 \alias{totalvis}
-\title{Calculate and plot partial depedence plots for principal components}
+\title{Creat an object for visiualing pdp plots for a principal component}
 \usage{
-totalvis(model, data, type = "regression", location = 1,
-  samp_size = 100, feature = NULL, pin = NULL)
+totalvis(model, X, type = "regression", location = 1,
+  samp_size = 100, feature = NULL, pin = NULL, ice = FALSE)
 }
 \arguments{
 \item{model}{A fitted model object of an appropriate class}
 
-\item{data}{Dataframe of matrix of numeric type (Note: Excludes the outcome 
-or the outcome is specified with'outcome')}
+\item{X}{Design matrix that the object was trained on}
 
 \item{type}{Outcome type, either 'classification' (binary) or 'regression'}
 
@@ -22,10 +21,12 @@ or the outcome is specified with'outcome')}
 \item{feature}{Feature to plot a partial dependence plot for}
 
 \item{pin}{Feature to pin pdp plot to over a range of a principal component}
+
+\item{ice}{Logical, options to include individual expectation curves}
 }
 \value{
 A pdp style plot of the specified principal component
 }
 \description{
-Calculate and plot partial depedence plots for principal components
+Creat an object for visiualing pdp plots for a principal component
 }
