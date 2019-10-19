@@ -18,7 +18,7 @@ function(object) {
 	
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   feature <- object$feature
@@ -26,10 +26,10 @@ function(object) {
   
   pred_func <- function(value) {
  
-		## Location calculates the average over a PC, feature does it over a feature
+		## pc_num calculates the average over a PC, feature does it over a feature
 		if (is.null(feature)) {
 			mat_tmp <- pca_object$x
-			mat_tmp[, location] <- value
+			mat_tmp[, pc_num] <- value
 			mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
 		} else {
 			mat_new <- data
@@ -60,7 +60,7 @@ function(object) {
 	
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   feature <- object$feature
@@ -68,10 +68,10 @@ function(object) {
   
 	pred_func <- function(value) {
 		
-		## Location calculates the average over a PC, feature does it over a feature
+		## pc_num calculates the average over a PC, feature does it over a feature
 		if (is.null(feature)) {
 			mat_tmp <- pca_object$x
-			mat_tmp[, location] <- value
+			mat_tmp[, pc_num] <- value
 			mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
 		} else {
 			mat_new <- data
@@ -107,16 +107,16 @@ pred_val.pinreg <-
   
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   pin <- object$pin
 
   pred_func <- function(value) {
     
-    ## Location calculates the average over a PC, feature does it over a feature
+    ## pc_num calculates the average over a PC, feature does it over a feature
     mat_tmp <- pca_object$x
-    mat_tmp[, location] <- value
+    mat_tmp[, pc_num] <- value
     mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
 
     ## Default predict with df, specific predict types for gbm and xgboost
@@ -142,16 +142,16 @@ function(object) {
   
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   pin <- object$pin
   
   pred_func <- function(value) {
     
-    ## Location calculates the average over a PC, feature does it over a feature
+    ## pc_num calculates the average over a PC, feature does it over a feature
     mat_tmp <- pca_object$x
-    mat_tmp[, location] <- value
+    mat_tmp[, pc_num] <- value
     mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
     
     ## Default predict with df, specific predict types for gbm and xgboost
@@ -183,7 +183,7 @@ function(object) {
   
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   feature <- object$feature
@@ -191,10 +191,10 @@ function(object) {
   
   pred_func <- function(value) {
     
-    ## Location calculates the average over a PC, feature does it over a feature
+    ## pc_num calculates the average over a PC, feature does it over a feature
     if (is.null(feature)) {
       mat_tmp <- pca_object$x
-      mat_tmp[, location] <- value
+      mat_tmp[, pc_num] <- value
       mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
     } else {
       mat_new <- data
@@ -222,7 +222,7 @@ function(object) {
   
   ## Unlist object
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   feature <- object$feature
@@ -230,10 +230,10 @@ function(object) {
     
   pred_func <- function(value) {
     
-    ## Location calculates the average over a PC, feature does it over a feature
+    ## pc_num calculates the average over a PC, feature does it over a feature
     if (is.null(feature)) {
       mat_tmp <- pca_object$x
-      mat_tmp[, location] <- value
+      mat_tmp[, pc_num] <- value
       mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
     } else {
       mat_new <- data

@@ -4,8 +4,8 @@
 \alias{totalvis}
 \title{Creat an object for visiualing pdp plots for a principal component}
 \usage{
-totalvis(model, X, type = "regression", location = 1,
-  samp_size = 100, feature = NULL, pin = NULL, ice = FALSE)
+totalvis(model, X, type = "regression", pc_num = 1, samp_size = 100,
+  feature = NULL, pin = NULL, ice = FALSE)
 }
 \arguments{
 \item{model}{A fitted model object of an appropriate class}
@@ -14,7 +14,7 @@ totalvis(model, X, type = "regression", location = 1,
 
 \item{type}{Outcome type, either 'classification' (binary) or 'regression'}
 
-\item{location}{Integer of principal component to visualize}
+\item{pc_num}{Integer of principal component to visualize}
 
 \item{samp_size}{Number of unique PC values marginalize and plot}
 

@@ -11,7 +11,7 @@
 
 \item{rug}{Adds a rug representation of the principal component}
 
-\item{...}{Additional optional arguments to be passed to plot}
+\item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }
 \description{
 Generate a total effect plot for a specific principal component and feature

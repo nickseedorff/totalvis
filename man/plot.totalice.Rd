@@ -12,7 +12,7 @@
 
 \item{num_load}{Number of loading to include in the legend}
 
-\item{legend_loc}{Location of legend, default of topleft}
+\item{legend_loc}{pc_num of legend, default of topleft}
 
 \item{center}{Logical, produced centered ice plots}
 
@@ -20,7 +20,7 @@
 
 \item{plot_frac}{Fraction of individual conditional expectation curves to plot}
 
-\item{...}{Additional optional arguments to be passed to plot}
+\item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }
 \description{
 Generate an ICE plots over for a principal component

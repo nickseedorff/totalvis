@@ -2,7 +2,7 @@
 #' @param model A fitted model object of an appropriate class
 #' @param X Design matrix that the object was trained on
 #' @param type Outcome type, either 'classification' (binary) or 'regression'
-#' @param location Integer of principal component to visualize
+#' @param pc_num Integer of principal component to visualize
 #' @param samp_size Number of unique PC values marginalize and plot
 #' @param feature Feature to plot a partial dependence plot for
 #' @param pin Feature to pin pdp plot to over a range of a principal component
@@ -15,17 +15,17 @@
 
 
 totalvis <-
-function(model, X, type = "regression", location = 1, samp_size = 100,
+function(model, X, type = "regression", pc_num = 1, samp_size = 100,
          feature = NULL, pin = NULL, ice = FALSE) {
   
-  ## Ensure location is an integer
-  if ((!is.numeric(location) | length(location) != 1) & !is.null(location)){
-    stop("Invalid location or input type")
+  ## Ensure pc_num is an integer
+  if ((!is.numeric(pc_num) | length(pc_num) != 1) & !is.null(pc_num)){
+    stop("Invalid pc_num or input type")
   }
   
-  ## Warning of location and feature are supplied
-  if (!is.null(location) & !is.null(feature)) {
-    warning("Feature input overrides location. Plotting this object will return
+  ## Warning of pc_num and feature are supplied
+  if (!is.null(pc_num) & !is.null(feature)) {
+    warning("Feature input overrides pc_num. Plotting this object will return
              a standard partial depedence or ice plot.")
   }
   
@@ -46,7 +46,7 @@ function(model, X, type = "regression", location = 1, samp_size = 100,
   if (is.null(feature)) {
     pca_dat <- prcomp(mat, center = TRUE, scale = TRUE)  
     mat_pca <- pca_dat$x
-    unique_val <- unique(mat_pca[, location])
+    unique_val <- unique(mat_pca[, pc_num])
   } else {
     pca_dat <- NULL
     unique_val <- unique(mat[, feature])
@@ -69,7 +69,7 @@ function(model, X, type = "regression", location = 1, samp_size = 100,
   }
   
   ## Apply pdp function for regression or classification
-  pred_obj <- structure(list(unique_val = unique_val, location = location, 
+  pred_obj <- structure(list(unique_val = unique_val, pc_num = pc_num, 
   													 model = model, pca_object = pca_dat, 
   													 feature = feature, data = mat, pin = pin), 
   											class = class_use)
@@ -79,7 +79,7 @@ function(model, X, type = "regression", location = 1, samp_size = 100,
   if (ice) {
     class_use <- paste0("ice", substring(type, 1, 3))
     pred_ice <- structure(list(unique_val = sort(unique_val), 
-                               location = location, 
+                               pc_num = pc_num, 
                                model = model, pca_object = pca_dat,
                                feature = feature, data = mat), 
                           class = class_use)
@@ -99,11 +99,11 @@ function(model, X, type = "regression", location = 1, samp_size = 100,
 
   ## Return various types of objects to plot
   if (is.null(feature) & is.null(pin) & !ice) {
-    structure(list(pred_df = pred_df, location = location, 
+    structure(list(pred_df = pred_df, pc_num = pc_num, 
     							 pca_object = pca_dat), class = "totalvis")
   } else if (ice & is.null(feature)){
     structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
-                   ice_mat = ice_mat, location = location,
+                   ice_mat = ice_mat, pc_num = pc_num,
                    pca_object = pca_dat), class = "totalice")
   } else if (ice & !is.null(feature)){
     structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
@@ -113,7 +113,7 @@ function(model, X, type = "regression", location = 1, samp_size = 100,
     structure(list(pred_df = pred_df, feature = feature,
                    data = mat), class = "featvis")
   } else {
-    structure(list(pred_df = pred_df, pin = pin, location = location), 
+    structure(list(pred_df = pred_df, pin = pin, pc_num = pc_num), 
               class = "pinvis")
   } 
 }

@@ -4,16 +4,21 @@
 \alias{plot.totalvis}
 \title{Generate a partial depedence plot for a specified principal component}
 \usage{
-\method{plot}{totalvis}(x, num_load = 5, rug = TRUE, ...)
+\method{plot}{totalvis}(x, num_load = 5, return_res = TRUE,
+  rug = TRUE, legend_loc = NULL, ...)
 }
 \arguments{
 \item{x}{A totalvis.object returned from a call to totalvis}
 
 \item{num_load}{Number of loading to include in the legend}
 
+\item{return_res}{Logical, return a dataframe with info about the top loadings}
+
 \item{rug}{Adds a rug representation of the principal component}
 
-\item{...}{Additional optional arguments to be passed to plot}
+\item{legend_loc}{Location of the legend, guesses either topleft or topright}
+
+\item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }
 \description{
 Generate a partial depedence plot for a specified principal component

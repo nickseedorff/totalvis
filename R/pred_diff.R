@@ -11,7 +11,7 @@ function(object) {
   ## Unlist object
   features <- object$features
   unique_val <- object$unique_val
-  location <- object$location
+  pc_num <- object$pc_num
   model <- object$model
   overall_pred <- object$overall_pred
   pca_object <- object$pca_object
@@ -29,8 +29,8 @@ function(object) {
       mat_tmp_new <- pca_object$x
       
       ## Old and new PC values
-      mat_tmp_old[, location] <- unique_val[i - 1]
-      mat_tmp_new[, location] <- unique_val[i]
+      mat_tmp_old[, pc_num] <- unique_val[i - 1]
+      mat_tmp_new[, pc_num] <- unique_val[i]
       
       ## New and old original matrices
       dat_temp_old <- rev_pca(data = mat_tmp_old, pca_object = pca_object)
@@ -69,7 +69,7 @@ pred_diff.cla <-
     ## Unlist object
     features <- object$features
     unique_val <- object$unique_val
-    location <- object$location
+    pc_num <- object$pc_num
     model <- object$model
     overall_pred <- object$overall_pred
     pca_object <- object$pca_object
@@ -87,8 +87,8 @@ pred_diff.cla <-
         mat_tmp_new <- pca_object$x
         
         ## Old and new PC values
-        mat_tmp_old[, location] <- unique_val[i - 1]
-        mat_tmp_new[, location] <- unique_val[i]
+        mat_tmp_old[, pc_num] <- unique_val[i - 1]
+        mat_tmp_new[, pc_num] <- unique_val[i]
         
         ## New and old original matrices
         dat_temp_old <- rev_pca(data = mat_tmp_old, pca_object = pca_object)

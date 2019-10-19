@@ -5,7 +5,7 @@
 \title{Diagnostic plot for assessing effects of individual features on a prinicapl 
 component}
 \usage{
-totalvis_diag(model, X, location = 1, samp_size = 20, num_load = 5,
+totalvis_diag(model, X, pc_num = 1, samp_size = 20, num_load = 5,
   type = "regresson")
 }
 \arguments{
@@ -13,7 +13,7 @@ totalvis_diag(model, X, location = 1, samp_size = 20, num_load = 5,
 
 \item{X}{Design matrix that the object was trained on}
 
-\item{location}{Principal component to impute}
+\item{pc_num}{Principal component to impute}
 
 \item{samp_size}{Number of steps to take in PC direction}
 
