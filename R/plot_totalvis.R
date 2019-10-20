@@ -60,6 +60,7 @@ function(x, num_load = 5, return_res = TRUE, rug = TRUE,
   
   if (return_res) {
     data.frame(feature_name = as.character(load_df$name), 
-               loading_value = as.numeric(top_loads), stringsAsFactors = FALSE)
+               loading_value = round(as.numeric(top_loads), 3), 
+               stringsAsFactors = FALSE)
   }
 }
