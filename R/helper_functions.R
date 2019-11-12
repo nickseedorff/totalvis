@@ -80,8 +80,8 @@ function(object) {
 		
 		## Default predict with df, specific predict types for gbm and xgboost
 		if(length(intersect(class(model), c("gbm", "xgb.Booster", "lm"))) == 0) {
-		  res <- try(mean(predict(model, as.data.frame(mat_new), 
-		                          type = "prob")[, 2]), silent = TRUE)
+		  res <- try(mean(as.numeric(predict(model, as.data.frame(mat_new), 
+		                          type = "prob")[, 2])), silent = TRUE)
 		} else if ("lm" %in% class(model)) {
 		  res <- mean(predict(model, as.data.frame(mat_new), type = "response"))
 		} else if ("gbm" %in% class(model)) {
@@ -156,8 +156,8 @@ function(object) {
     
     ## Default predict with df, specific predict types for gbm and xgboost
     if(length(intersect(class(model), c("gbm", "xgb.Booster", "lm"))) == 0) {
-      res <- try(mean(predict(model, as.data.frame(mat_new), 
-                              type = "prob")[, 2]), silent = TRUE)
+      res <- try(mean(as.numeric(predict(model, as.data.frame(mat_new), 
+                              type = "prob")[, 2])), silent = TRUE)
     } else if ("lm" %in% class(model)) {
       res <- mean(predict(model, as.data.frame(mat_new), type = "response"))
     } else if ("gbm" %in% class(model)) {

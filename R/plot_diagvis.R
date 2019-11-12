@@ -33,7 +33,7 @@ plot.diagvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
        ylim = c(min(pred_mat), max(pred_mat)), 
        type = "l", xlab = defaults[["xlab"]], 
        main = defaults[["main"]],
-       ylab = expression(hat(y)[partial] - hat(y)), 
+       ylab = expression(y[partial] - y[hat]), 
        lwd = 3)
   
   ## Add rug
