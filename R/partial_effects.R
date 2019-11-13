@@ -1,4 +1,4 @@
-#' Diagnostic plot for assessing effects of individual features on a prinicapl 
+#' Diagnostic plot for assessing effects of individual features on a principal 
 #' component
 #' @param model A fitted model object to visualize
 #' @param X Design matrix that the object was trained on
@@ -8,7 +8,7 @@
 #' @param num_load Number of top loadings to plot
 #' @export
 
-totalvis_diag <-
+partial_effects <-
 function(model, X, pc_num = 1, samp_size = 20, num_load = 5, 
          type = "regresson") {
   
@@ -61,9 +61,9 @@ function(model, X, pc_num = 1, samp_size = 20, num_load = 5,
                         class = c(substring(type, 1, 3)))
   pred_diff_mat <- pred_diff(pred_obj)
   
-  ## Return diagvis object
+  ## Return partialvis object
   structure(list(pred_mat = pred_diff_mat, x_vec = unique_val, 
                  pc_num = pc_num, pca_object = pca_dat,
                  load_names = rownames(top_loads)), 
-            class = "diagvis")
+            class = "partialvis")
 }

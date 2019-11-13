@@ -6,7 +6,7 @@
 #' @export
 
 
-plot.diagvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
+plot.partialvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
   
   ## Unlist object
   pred_mat <- x$pred_mat
