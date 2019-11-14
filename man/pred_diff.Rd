@@ -5,10 +5,10 @@
 \title{Evaluate difference in predictions for imputing an entire PC vs
 taking a step in the PC direction for a single feature}
 \usage{
-pred_diff(x)
+pred_diff(object)
 }
 \arguments{
-\item{x}{Object of type "diagvis"}
+\item{object}{a preddiff object passed through the partial_effects function}
 }
 \description{
 Evaluate difference in predictions for imputing an entire PC vs
