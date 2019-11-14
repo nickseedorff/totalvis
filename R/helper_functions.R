@@ -13,7 +13,7 @@ rev_pca <-
 
 pred_val <- function(x) UseMethod("pred_val")
 
-pred_val.reg <- 
+pred_val.pc <- 
 function(object) {
 	
   ## Unlist object
@@ -23,6 +23,7 @@ function(object) {
   pca_object <- object$pca_object
   feature <- object$feature
   data <- object$data
+  type <- object$type
   
   pred_func <- function(value) {
  
@@ -35,74 +36,23 @@ function(object) {
 			mat_new <- data
 			mat_new[, feature] = value
 		}
-		
-    ## Default predict with df, specific predict types for gbm and xgboost
-    if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-      res <- try(mean(predict(model, as.data.frame(mat_new))), 
-                 silent = TRUE)
-    } else if ("gbm" %in% class(model)) {
-      res <- mean(predict(model, as.data.frame(mat_new), 
-                          n.trees = model$n.trees))
-    } else if ("xgb.Booster" %in% class(model)) {
-      res <- mean(predict(model, mat_new))
+    
+    ## Get predictions
+    if(type == "regression") {
+      regression_preds(model, mat_new)
+    } else {
+      classification_preds(model, mat_new)
     }
-		
-		## Stop if incorrect object type
-		if (!is.numeric(res)) stop("Unrecognized object (model) type")
-		res
   }
 	vapply(unique_val, pred_func, FUN.VALUE = numeric(1))
 }
 
 
-pred_val.cla <- 
-function(object) {
-	
-  ## Unlist object
-  unique_val <- object$unique_val
-  pc_num <- object$pc_num
-  model <- object$model
-  pca_object <- object$pca_object
-  feature <- object$feature
-  data <- object$data
-  
-	pred_func <- function(value) {
-		
-		## pc_num calculates the average over a PC, feature does it over a feature
-		if (is.null(feature)) {
-			mat_tmp <- pca_object$x
-			mat_tmp[, pc_num] <- value
-			mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
-		} else {
-			mat_new <- data
-			mat_new[, feature] = value
-		}
-		
-		## Default predict with df, specific predict types for gbm and xgboost
-		if(length(intersect(class(model), c("gbm", "xgb.Booster", "lm"))) == 0) {
-		  res <- try(mean(as.numeric(predict(model, as.data.frame(mat_new), 
-		                          type = "prob")[, 2])), silent = TRUE)
-		} else if ("lm" %in% class(model)) {
-		  res <- mean(predict(model, as.data.frame(mat_new), type = "response"))
-		} else if ("gbm" %in% class(model)) {
-		  res <- mean(predict(model, as.data.frame(mat_new), 
-		                      n.trees = model$n.trees)[, 2])
-		} else if ("xgb.Booster" %in% class(model)) {
-		  res <- mean(predict(model, mat_new, type = "prob")[, 2])
-		}
-		
-		## Stop if incorrect object type
-		if (!is.numeric(res)) stop("Unrecognized object (model) type")
-		res
-	}
-	vapply(unique_val, pred_func, FUN.VALUE = numeric(1))
-}
-
 ###############################################################################
 # Pin features
 ###############################################################################
 
-pred_val.pinreg <- 
+pred_val.pin <- 
   function(object) {
   
   ## Unlist object
@@ -111,6 +61,7 @@ pred_val.pinreg <-
   model <- object$model
   pca_object <- object$pca_object
   pin <- object$pin
+  type <- object$type
 
   pred_func <- function(value) {
     
@@ -119,57 +70,14 @@ pred_val.pinreg <-
     mat_tmp[, pc_num] <- value
     mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
 
-    ## Default predict with df, specific predict types for gbm and xgboost
-    if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-      res <- try(mean(predict(model, as.data.frame(mat_new))), 
-                 silent = TRUE)
-    } else if ("gbm" %in% class(model)) {
-      res <- mean(predict(model, as.data.frame(mat_new), 
-                          n.trees = model$n.trees))
-    } else if ("xgb.Booster" %in% class(model)) {
-      res <- mean(predict(model, mat_new))
+    ## Get predictions, as well as mean and median of feature
+    if(type == "regression") {
+      res <- regression_preds(model, mat_new)
+    } else {
+      res <- classification_preds(model, mat_new)
     }
-    
-    ## Stop if incorrect object type
-    if (!is.numeric(res)) stop("Unrecognized object (model) type")
     c(res, mean(mat_new[, pin]), median(mat_new[, pin]))
-  }
-  vapply(unique_val, pred_func, FUN.VALUE = numeric(3))
-}
-
-pred_val.pincla <- 
-function(object) {
-  
-  ## Unlist object
-  unique_val <- object$unique_val
-  pc_num <- object$pc_num
-  model <- object$model
-  pca_object <- object$pca_object
-  pin <- object$pin
-  
-  pred_func <- function(value) {
     
-    ## pc_num calculates the average over a PC, feature does it over a feature
-    mat_tmp <- pca_object$x
-    mat_tmp[, pc_num] <- value
-    mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
-    
-    ## Default predict with df, specific predict types for gbm and xgboost
-    if(length(intersect(class(model), c("gbm", "xgb.Booster", "lm"))) == 0) {
-      res <- try(mean(as.numeric(predict(model, as.data.frame(mat_new), 
-                              type = "prob")[, 2])), silent = TRUE)
-    } else if ("lm" %in% class(model)) {
-      res <- mean(predict(model, as.data.frame(mat_new), type = "response"))
-    } else if ("gbm" %in% class(model)) {
-      res <- mean(predict(model, as.data.frame(mat_new), 
-                          n.trees = model$n.trees)[, 2])
-    } else if ("xgb.Booster" %in% class(model)) {
-      res <- mean(predict(model, mat_new, type = "prob")[, 2])
-    }
-    
-    ## Stop if incorrect object type
-    if (!is.numeric(res)) stop("Unrecognized object (model) type")
-    c(res, mean(mat_new[, pin]), median(mat_new[, pin]))
   }
   vapply(unique_val, pred_func, FUN.VALUE = numeric(3))
 }
@@ -178,7 +86,7 @@ function(object) {
 # Ice plots
 ###############################################################################
 
-pred_val.icereg <- 
+pred_val.ice <- 
 function(object) {
   
   ## Unlist object
@@ -188,6 +96,7 @@ function(object) {
   pca_object <- object$pca_object
   feature <- object$feature
   data <- object$data
+  type <- object$type
   
   pred_func <- function(value) {
     
@@ -201,62 +110,59 @@ function(object) {
       mat_new[, feature] = value
     }
 
-    ## Default predict with df, specific predict types for gbm and xgboost
-    if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-      res <- try(predict(model, as.data.frame(mat_new)), silent = TRUE)
-    } else if ("gbm" %in% class(model)) {
-      res <- predict(model, as.data.frame(mat_new), n.trees = model$n.trees)
-    } else if ("xgb.Booster" %in% class(model)) {
-      res <- predict(model, mat_new)
+    ## Get predictions
+    if(type == "regression") {
+      regression_preds(model, mat_new)
+    } else {
+      classification_preds(model, mat_new)
     }
-    
-    ## Stop if incorrect object type
-    if (!is.numeric(res)) stop("Unrecognized object (model) type")
-    res
   }
   vapply(unique_val, pred_func, FUN.VALUE = numeric(nrow(data)))
 }
 
-pred_val.icecla <- 
-function(object) {
-  
-  ## Unlist object
-  unique_val <- object$unique_val
-  pc_num <- object$pc_num
-  model <- object$model
-  pca_object <- object$pca_object
-  feature <- object$feature
-  data <- object$data
-    
-  pred_func <- function(value) {
-    
-    ## pc_num calculates the average over a PC, feature does it over a feature
-    if (is.null(feature)) {
-      mat_tmp <- pca_object$x
-      mat_tmp[, pc_num] <- value
-      mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
-    } else {
-      mat_new <- data
-      mat_new[, feature] = value
-    }
-  
-    
-    ## Default predict with df, specific predict types for gbm and xgboost
-    if(length(intersect(class(model), c("gbm", "xgb.Booster", "lm"))) == 0) {
-      res <- try(predict(model, as.data.frame(mat_new), type = "prob")[, 2], 
-                 silent = TRUE)
-    } else if ("lm" %in% class(model)) {
-      res <- predict(model, as.data.frame(mat_new), type = "response")
-    } else if ("gbm" %in% class(model)) {
-      res <- predict(model, as.data.frame(mat_new), 
-                          n.trees = model$n.trees)[, 2]
-    } else if ("xgb.Booster" %in% class(model)) {
-      res <- predict(model, mat_new, type = "prob")[, 2]
-    }
-    
-    ## Stop if incorrect object type
-    if (!is.numeric(res)) stop("Unrecognized object (model) type")
-    res
+#' Control flow for regression predictions
+#' @param model model object to be used for prediction
+#' @param X matrix to be used in predictions
+
+regression_preds <- function(model, X) {
+  if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
+    res <- try(mean(predict(model, as.data.frame(X))), 
+               silent = TRUE)
+  } else if ("gbm" %in% class(model)) {
+    res <- mean(predict(model, as.data.frame(X), 
+                        n.trees = model$n.trees))
+  } else if ("xgb.Booster" %in% class(model)) {
+    res <- mean(predict(model, X))
   }
-  vapply(unique_val, pred_func, FUN.VALUE = numeric(nrow(data)))
+  
+  ## Stop if incorrect object type
+  if (!is.numeric(res)) stop("Unrecognized object (model) type")
+  res
+}
+
+#' Control flow for classification predictions
+#' @param model model object to be used for prediction
+#' @param X matrix to be used in predictions
+
+classification_preds <- function(model, X) {
+  diff_mods <- c("gbm", "xgb.Booster", "lm", "MLModelFit", "svm")
+  if(length(intersect(class(model), diff_mods)) == 0) {
+    res <- try(mean(as.numeric(predict(model, as.data.frame(X), 
+                                       type = "prob")[, 2])), silent = TRUE)
+  } else if ("MLModelFit" %in% class(model)) {
+    res <- mean(predict(model, X, type = "prob"))
+  } else if ("svm" %in% class(model)) {
+    res <- mean(predict(model, X, probability = TRUE))
+  } else if ("lm" %in% class(model)) {
+    res <- mean(predict(model, as.data.frame(X), type = "response"))
+  } else if ("gbm" %in% class(model)) {
+    res <- mean(predict(model, as.data.frame(X), 
+                        n.trees = model$n.trees)[, 2])
+  } else if ("xgb.Booster" %in% class(model)) {
+    res <- mean(predict(model, X, type = "prob")[, 2])
+  }
+  
+  ## Stop if incorrect object type
+  if (!is.numeric(res)) stop("Unrecognized object (model) type")
+  res
 }

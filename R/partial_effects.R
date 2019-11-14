@@ -10,7 +10,7 @@
 
 partial_effects <-
 function(model, X, pc_num = 1, samp_size = 20, num_load = 5, 
-         type = "regresson") {
+         type = "regression") {
   
   if (!is.numeric(pc_num) | length(pc_num) != 1) {
     stop("Invalid pc_num or input type")
@@ -48,8 +48,8 @@ function(model, X, pc_num = 1, samp_size = 20, num_load = 5,
   ## Apply pdp function for regression or classification
   pred_obj <- structure(list(unique_val = unique_val, pc_num = pc_num, 
   													 model = model, pca_object = pca_dat, 
-  													 feature = NULL), 
-  											class = c(substring(type, 1, 3)))
+  													 feature = NULL, type = type), 
+  											class = "pc")
   pred_vec <- pred_val(pred_obj)
   
   
@@ -57,8 +57,8 @@ function(model, X, pc_num = 1, samp_size = 20, num_load = 5,
   pred_obj <- structure(list(features = rownames(top_loads), 
                              unique_val = unique_val, pc_num = pc_num, 
                              model = model, pca_object = pca_dat, 
-                             overall_pred = pred_vec), 
-                        class = c(substring(type, 1, 3)))
+                             overall_pred = pred_vec, type = type), 
+                        class = "preddiff")
   pred_diff_mat <- pred_diff(pred_obj)
   
   ## Return partialvis object

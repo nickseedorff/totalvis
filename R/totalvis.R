@@ -63,25 +63,27 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 100,
   
   ## Define class
   if (!is.null(pin)) {
-    class_use <- paste0("pin", c(substring(type, 1, 3)))
+    class_use <- "pin"
   } else {
-    class_use <- substring(type, 1, 3)
+    class_use <- "pc"
   }
   
   ## Apply pdp function for regression or classification
   pred_obj <- structure(list(unique_val = unique_val, pc_num = pc_num, 
   													 model = model, pca_object = pca_dat, 
-  													 feature = feature, data = mat, pin = pin), 
+  													 feature = feature, data = mat, pin = pin,
+  													 type = type), 
   											class = class_use)
   pred_vec <- pred_val(pred_obj)
   
   ## calculate curves for ice plots
   if (ice) {
-    class_use <- paste0("ice", substring(type, 1, 3))
+    class_use <- "ice"
     pred_ice <- structure(list(unique_val = sort(unique_val), 
                                pc_num = pc_num, 
                                model = model, pca_object = pca_dat,
-                               feature = feature, data = mat), 
+                               feature = feature, data = mat,
+                               type = type), 
                           class = class_use)
     ice_mat <- pred_val(pred_ice)
   }
