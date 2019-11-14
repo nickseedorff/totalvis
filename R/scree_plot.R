@@ -2,7 +2,7 @@
 #' @param x An object produced from the totalvis or partial_effects functions 
 #' @param main title of the scree plot
 #' @param ... Additional arguments to be passed to screeplot
-#' @import stats
+#' @importFrom stats screeplot
 #' @export
 
 scree_plot <- function(x, main = "Scree Plot", ...){
