@@ -5,12 +5,13 @@
 #' @param center Logical, produced centered ice plots
 #' @param rug Adds a rug representation of the principal component
 #' @param plot_frac Fraction of individual conditional expectation curves to plot
+#' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments
 #' @export
 
 plot.totalice <-
 function(x, num_load = 5, legend_loc = "topleft", center = TRUE, rug = TRUE, 
-         plot_frac = 0.1, ...) {
+         plot_frac = 0.1, legend_cex = 1, ...) {
 
   ## Unlist object
   avg_pred <- x$avg_pred
@@ -68,7 +69,7 @@ function(x, num_load = 5, legend_loc = "topleft", center = TRUE, rug = TRUE,
   
   ## Add legend to plot
   legend(legend_loc, legend = load_df$name, pch = load_df$symbol, 
-         col = load_df$col, cex = 0.8, title = "Primary Features:")
+         col = load_df$col, cex = legend_cex, title = "Primary Features:")
   
   data.frame(feature_name = as.character(load_df$name), 
              loading_value = top_loads, stringsAsFactors = FALSE)

@@ -2,11 +2,13 @@
 #' @param x A diagvis.object returned from a call to totalvis_diag 
 #' @param legend_loc Legend placement; 'topleft', 'topright', 'bottom', ...
 #' @param rug Adds a rug representation of the principal component
+#' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments
 #' @export
 
 
-plot.partialvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
+plot.partialvis <- function(x, legend_loc = "topleft", rug = TRUE, 
+                            legend_cex = 1, ...){
   
   ## Unlist object
   pred_mat <- x$pred_mat
@@ -43,7 +45,7 @@ plot.partialvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
   
   ## Legend individual curves curves
   legend(legend_loc, legend = load_names, col = cbPalette[c(1:n_col)], 
-         lty = 1, lwd = 3, cex = 1)
+         lty = 1, lwd = 3, cex = legend_cex)
   
   ## Add lines for individual curves
   for(i in 1:n_col) {

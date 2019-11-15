@@ -2,14 +2,15 @@
 #' @param x A totalvis.object returned from a call to totalvis
 #' @param num_load Number of loading to include in the legend
 #' @param return_res Logical, return a dataframe with info about the top loadings
-#' @param legend_loc Location of the legend, guesses either topleft or topright
+#' #' @param legend_loc Location of the legend, guesses either topleft or topright
 #' @param rug Adds a rug representation of the principal component
+#' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments
 #' @export
 
 plot.totalvis <-
-function(x, num_load = 5, return_res = TRUE, rug = TRUE, 
-         legend_loc = NULL, ...) {
+function(x, num_load = 5, return_res = TRUE, legend_loc = NULL, 
+         rug = TRUE, legend_cex = 1, ...) {
 
   ## Unlist object
   pred_df <- x$pred_df
@@ -56,7 +57,7 @@ function(x, num_load = 5, return_res = TRUE, rug = TRUE,
   
   ## Add legend to plot
   legend(legend_loc, legend = load_df$name, pch = load_df$symbol, 
-         col = load_df$col, cex = 0.8, title = "Primary Features")
+         col = load_df$col, cex = legend_cex, title = "Primary Features")
   
   if (return_res) {
     data.frame(feature_name = as.character(load_df$name), 
