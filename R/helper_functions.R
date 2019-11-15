@@ -152,12 +152,13 @@ classification_preds <- function(model, X) {
   } else if ("MLModelFit" %in% class(model)) {
     res <- mean(predict(model, X, type = "prob"))
   } else if ("svm" %in% class(model)) {
-    res <- mean(predict(model, X, probability = TRUE)[, 2])
+    res <- mean(attr(predict(model, X, probability = TRUE), 
+                     "probabilities")[, 2])
   } else if ("lm" %in% class(model)) {
     res <- mean(predict(model, as.data.frame(X), type = "response"))
   } else if ("gbm" %in% class(model)) {
     res <- mean(predict(model, as.data.frame(X), 
-                        n.trees = model$n.trees)[, 2])
+                        n.trees = model$n.trees, type = "response"))
   } else if ("xgb.Booster" %in% class(model)) {
     res <- mean(predict(model, X, type = "prob")[, 2])
   }
