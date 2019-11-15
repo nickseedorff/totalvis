@@ -186,7 +186,7 @@ check_regression_preds <- function(model, X) {
   
   ## Stop if incorrect object type
   if (length(unique(res)) <= 2) {
-    warning("2 or fewer unique predicted values, 
-             should type = 'classifcation'?", call. = FALSE, immediate. = TRUE)
+    warning("2 or fewer unique predicted values, should type = 'classifcation'?", 
+            call. = FALSE, immediate. = TRUE)
   }
 }
