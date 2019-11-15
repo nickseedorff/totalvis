@@ -160,7 +160,7 @@ classification_preds <- function(model, X) {
     res <- mean(predict(model, as.data.frame(X), 
                         n.trees = model$n.trees, type = "response"))
   } else if ("xgb.Booster" %in% class(model)) {
-    res <- mean(predict(model, X, type = "prob")[, 2])
+    res <- mean(predict(model, X))
   }
   
   ## Stop if incorrect object type
