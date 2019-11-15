@@ -29,18 +29,25 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 100,
              a standard partial depedence or ice plot.")
   }
   
-  ## Can only create ice curves if feature and pin a null
+  ## Can only create ice curves if pin is null
   if (!is.null(pin) & ice) {
-    stop("Ice curves are only implemented when pin is set to null")
+    message("ice = TRUE sets pc_num and pin to NULL")
   }
   
-  
   ## convert to a matrix if input is a dataframe
-  if (class(X) != "matrix") {
+  if (!class(X) %in% c("matrix", "data.frame")) {
+    stop("Input data must be a numeric matrix of data.frame of numeric columns")
+  } else if (class(X) == "data.frame") {
+    if(!all(apply(X, 2, is.numeric))) {
+      stop("Could not convert input to a numeric matrix.")
+    }
     mat <- as.matrix(X)
   } else {
     mat <- X
   }
+  
+  ## Check unique predictions values, warn if type may need to be changed
+  check_regression_preds(model, X)
   
   ## Decompose the matrix, keep unique values for the feature
   if (is.null(feature)) {

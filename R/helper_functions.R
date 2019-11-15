@@ -167,3 +167,26 @@ classification_preds <- function(model, X) {
   if (!is.numeric(res)) stop("Unrecognized object (model) type")
   res
 }
+
+
+#' Test number of level used for predictions, warn if regression was chosen for 
+#' a classification
+#' @param model model object to be used for prediction
+#' @param X matrix to be used in predictions
+
+check_regression_preds <- function(model, X) {
+  if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
+    res <- try(predict(model, as.data.frame(X)), 
+               silent = TRUE)
+  } else if ("gbm" %in% class(model)) {
+    res <- predict(model, as.data.frame(X), n.trees = model$n.trees)
+  } else if ("xgb.Booster" %in% class(model)) {
+    res <- predict(model, X)
+  }
+  
+  ## Stop if incorrect object type
+  if (length(unique(res)) <= 2) {
+    warning("2 or fewer unique predicted values, 
+             should type = 'classifcation'?")
+  }
+}
