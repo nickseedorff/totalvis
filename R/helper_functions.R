@@ -152,7 +152,7 @@ classification_preds <- function(model, X) {
   } else if ("MLModelFit" %in% class(model)) {
     res <- mean(predict(model, X, type = "prob"))
   } else if ("svm" %in% class(model)) {
-    res <- mean(predict(model, X, probability = TRUE))
+    res <- mean(predict(model, X, probability = TRUE)[, 2])
   } else if ("lm" %in% class(model)) {
     res <- mean(predict(model, as.data.frame(X), type = "response"))
   } else if ("gbm" %in% class(model)) {
