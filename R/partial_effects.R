@@ -28,6 +28,9 @@ function(model, X, pc_num = 1, samp_size = 20, num_load = 5,
     mat <- X
   }
   
+  ## Check unique predictions values, warn if type may need to be changed
+  if (type == "regression") check_regression_preds(model, X)
+  
   ## Select minimum of number of feates and num_load
   num_load <- min(num_load, ncol(mat))
   

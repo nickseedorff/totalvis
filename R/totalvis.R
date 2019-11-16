@@ -47,7 +47,7 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 100,
   }
   
   ## Check unique predictions values, warn if type may need to be changed
-  check_regression_preds(model, X)
+  if (type == "regression") check_regression_preds(model, X)
   
   ## Decompose the matrix, keep unique values for the feature
   if (is.null(feature)) {
