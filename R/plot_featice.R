@@ -1,16 +1,13 @@
 #' Generate an ICE plots over for a specified feature
 #' @param x A totalvis.object returned from a call to totalvis
-#' @param num_load Number of loading to include in the legend
-#' @param legend_loc pc_num of legend, default of topleft
-#' @param center Logical, produced centered ice plots
+#' @param center Logical, produces centered ice plots
 #' @param rug Adds a rug representation of the principal component
 #' @param plot_frac Fraction of individual conditional expectation curves to plot
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments
 #' @export
 
 plot.featice <-
-function(x, num_load = 5, legend_loc = "topleft", center = TRUE, rug = TRUE, 
-         plot_frac = 0.1, ...) {
+function(x, center = TRUE, rug = TRUE, plot_frac = 0.1, legend_cex = 1, ...) {
 
   
   ## Unlist object
