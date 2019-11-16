@@ -21,7 +21,7 @@ plot.partialvis <- function(x, legend_loc = "topleft", rug = TRUE, ...){
                                  optionals[["xlab"]], paste0("PC", pc_num)),
                    main = ifelse("main" %in% names(optionals), 
                                  optionals[["main"]], 
-                                 paste0("Diagnostic Plot of PC", pc_num)))
+                                 paste0("Partial Effects of PC", pc_num)))
   
   ## Define color palette
   n_col <- ncol(pred_mat)
