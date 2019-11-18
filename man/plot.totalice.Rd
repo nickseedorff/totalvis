@@ -5,7 +5,7 @@
 \title{Generate an ICE plots over for a principal component}
 \usage{
 \method{plot}{totalice}(x, num_load = 5, legend_loc = "topleft",
-  center = TRUE, rug = TRUE, plot_frac = 0.1, ...)
+  center = TRUE, rug = TRUE, plot_frac = 0.1, legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A totalvis.object returned from a call to totalvis}
@@ -19,6 +19,8 @@
 \item{rug}{Adds a rug representation of the principal component}
 
 \item{plot_frac}{Fraction of individual conditional expectation curves to plot}
+
+\item{legend_cex}{Character expansion factor for the legend}
 
 \item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }

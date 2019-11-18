@@ -5,18 +5,19 @@
 \title{Generate a partial depedence plot for a specified principal component}
 \usage{
 \method{plot}{totalvis}(x, num_load = 5, return_res = TRUE,
-  rug = TRUE, legend_loc = NULL, ...)
+  legend_loc = NULL, rug = TRUE, legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A totalvis.object returned from a call to totalvis}
 
 \item{num_load}{Number of loading to include in the legend}
 
-\item{return_res}{Logical, return a dataframe with info about the top loadings}
+\item{return_res}{Logical, return a dataframe with info about the top loadings
+#' @param legend_loc Location of the legend, guesses either topleft or topright}
 
 \item{rug}{Adds a rug representation of the principal component}
 
-\item{legend_loc}{Location of the legend, guesses either topleft or topright}
+\item{legend_cex}{Character expansion factor for the legend}
 
 \item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }

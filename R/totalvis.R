@@ -8,14 +8,13 @@
 #' @param pin Feature to pin pdp plot to over a range of a principal component
 #' @param ice Logical, options to include individual expectation curves
 #' @return A pdp style plot of the specified principal component
-#' @examples
 #' @import graphics
 #' @import stats 
 #' @export
 
 
 totalvis <-
-function(model, X, type = "regression", pc_num = 1, samp_size = 100,
+function(model, X, type = "regression", pc_num = 1, samp_size = 50,
          feature = NULL, pin = NULL, ice = FALSE) {
   
   ## Ensure pc_num is an integer

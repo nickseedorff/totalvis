@@ -4,17 +4,13 @@
 \alias{plot.featice}
 \title{Generate an ICE plots over for a specified feature}
 \usage{
-\method{plot}{featice}(x, num_load = 5, legend_loc = "topleft",
-  center = TRUE, rug = TRUE, plot_frac = 0.1, ...)
+\method{plot}{featice}(x, center = TRUE, rug = TRUE, plot_frac = 0.1,
+  legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A totalvis.object returned from a call to totalvis}
 
-\item{num_load}{Number of loading to include in the legend}
-
-\item{legend_loc}{pc_num of legend, default of topleft}
-
-\item{center}{Logical, produced centered ice plots}
+\item{center}{Logical, produces centered ice plots}
 
 \item{rug}{Adds a rug representation of the principal component}
 

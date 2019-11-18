@@ -4,7 +4,7 @@
 \alias{totalvis}
 \title{Creat an object for visiualing pdp plots for a principal component}
 \usage{
-totalvis(model, X, type = "regression", pc_num = 1, samp_size = 100,
+totalvis(model, X, type = "regression", pc_num = 1, samp_size = 50,
   feature = NULL, pin = NULL, ice = FALSE)
 }
 \arguments{

@@ -4,7 +4,8 @@
 \alias{plot.partialvis}
 \title{Diagnostic plot for totalvis function}
 \usage{
-\method{plot}{partialvis}(x, legend_loc = "topleft", rug = TRUE, ...)
+\method{plot}{partialvis}(x, legend_loc = "topleft", rug = TRUE,
+  legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A diagvis.object returned from a call to totalvis_diag}
@@ -12,6 +13,8 @@
 \item{legend_loc}{Legend placement; 'topleft', 'topright', 'bottom', ...}
 
 \item{rug}{Adds a rug representation of the principal component}
+
+\item{legend_cex}{Character expansion factor for the legend}
 
 \item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }
