@@ -47,7 +47,7 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
          type = "l", xlab = defaults[["xlab"]], 
          main = defaults[["main"]],
          ylab = "yhat", 
-         lwd = 3)
+         lwd = 4)
   }
   
   ## Add rug
