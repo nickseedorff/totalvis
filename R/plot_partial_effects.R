@@ -43,7 +43,7 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
   } else {
     pred_mat[1, ] <- overall_pred[1]
     plot(x_vec, overall_pred, 
-         ylim = c(min(pred_mat, overall_pred), c(max(pred_mat, overall_pred)), 
+         ylim = c(min(pred_mat, overall_pred), c(max(pred_mat, overall_pred))), 
          type = "l", xlab = defaults[["xlab"]], 
          main = defaults[["main"]],
          ylab = "yhat", 
