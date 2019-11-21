@@ -65,13 +65,13 @@ function(model, X, pc_num = 1, samp_size = 20, num_load = 5,
   pred_obj <- structure(list(features = rownames(top_loads), 
                              unique_val = unique_val, pc_num = pc_num, 
                              model = model, pca_object = pca_dat, 
-                             overall_pred = pred_vec, type = type), 
+                             type = type), 
                         class = "preddiff")
   pred_diff_mat <- pred_diff(pred_obj)
   
   ## Return partialvis object
-  structure(list(pred_mat = pred_diff_mat, x_vec = unique_val, 
-                 pc_num = pc_num, pca_object = pca_dat,
+  structure(list(pred_mat = pred_diff_mat, overall_pred = pred_vec,
+                 x_vec = unique_val, pc_num = pc_num, pca_object = pca_dat,
                  load_names = rownames(top_loads)), 
             class = "partialvis")
 }
