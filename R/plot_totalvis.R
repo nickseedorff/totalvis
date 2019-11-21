@@ -2,7 +2,7 @@
 #' @param x A totalvis.object returned from a call to totalvis
 #' @param num_load Number of loading to include in the legend
 #' @param return_res Logical, return a dataframe with info about the top loadings
-#' #' @param legend_loc Location of the legend, guesses either topleft or topright
+#' @param legend_loc Location of the legend, guesses either topleft or topright
 #' @param rug Adds a rug representation of the principal component
 #' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments

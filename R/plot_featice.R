@@ -3,6 +3,7 @@
 #' @param center Logical, produces centered ice plots
 #' @param rug Adds a rug representation of the principal component
 #' @param plot_frac Fraction of individual conditional expectation curves to plot
+#' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments
 #' @export
 

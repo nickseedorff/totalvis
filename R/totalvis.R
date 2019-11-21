@@ -109,10 +109,6 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 50,
   if (is.null(feature) & is.null(pin) & !ice) {
     structure(list(pred_df = pred_df, pc_num = pc_num, 
     							 pca_object = pca_dat), class = "totalvis")
-  } else if (ice & is.null(feature)){
-    structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
-                   ice_mat = ice_mat, pc_num = pc_num,
-                   pca_object = pca_dat), class = "totalice")
   } else if (ice & !is.null(feature)){
     structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
                    ice_mat = ice_mat, data = mat, feature = feature), 

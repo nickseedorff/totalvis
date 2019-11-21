@@ -16,6 +16,8 @@
 
 \item{plot_frac}{Fraction of individual conditional expectation curves to plot}
 
+\item{legend_cex}{Character expansion factor for the legend}
+
 \item{...}{Additional optional arguments to be passed to plot, accepts xlab or main as arguments}
 }
 \description{

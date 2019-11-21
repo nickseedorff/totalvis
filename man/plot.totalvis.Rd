@@ -12,8 +12,9 @@
 
 \item{num_load}{Number of loading to include in the legend}
 
-\item{return_res}{Logical, return a dataframe with info about the top loadings
-#' @param legend_loc Location of the legend, guesses either topleft or topright}
+\item{return_res}{Logical, return a dataframe with info about the top loadings}
+
+\item{legend_loc}{Location of the legend, guesses either topleft or topright}
 
 \item{rug}{Adds a rug representation of the principal component}
 
