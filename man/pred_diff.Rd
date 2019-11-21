@@ -2,8 +2,7 @@
 % Please edit documentation in R/pred_diff.R
 \name{pred_diff}
 \alias{pred_diff}
-\title{Evaluate difference in predictions for imputing an entire PC vs
-taking a step in the PC direction for a single feature}
+\title{Obtain predictions resulting from shifting a single feature}
 \usage{
 pred_diff(object)
 }
@@ -11,6 +10,5 @@ pred_diff(object)
 \item{object}{a preddiff object passed through the partial_effects function}
 }
 \description{
-Evaluate difference in predictions for imputing an entire PC vs
-taking a step in the PC direction for a single feature
+Obtain predictions resulting from shifting a single feature
 }
