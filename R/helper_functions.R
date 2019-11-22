@@ -119,7 +119,7 @@ function(object) {
 
 regression_preds <- function(model, X, ice = FALSE) {
   if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-    res <- try(predict(model, as.data.frame(X)), silent = TRUE)
+    res <- predict(model, as.data.frame(X))
   } else if ("gbm" %in% class(model)) {
     res <- predict(model, as.data.frame(X), n.trees = model$n.trees)
   } else if ("xgb.Booster" %in% class(model)) {
@@ -146,8 +146,7 @@ regression_preds <- function(model, X, ice = FALSE) {
 classification_preds <- function(model, X, ice = FALSE) {
   diff_mods <- c("gbm", "xgb.Booster", "lm", "MLModelFit", "svm")
   if(length(intersect(class(model), diff_mods)) == 0) {
-    res <- try(as.numeric(predict(model, as.data.frame(X), 
-                                  type = "prob")[, 2]), silent = TRUE)
+    res <- as.numeric(predict(model, as.data.frame(X), type = "prob")[, 2])
   } else if ("MLModelFit" %in% class(model)) {
     res <- predict(model, X, type = "prob")
   } else if ("svm" %in% class(model)) {
@@ -163,7 +162,7 @@ classification_preds <- function(model, X, ice = FALSE) {
   
   ## Stop if incorrect object type
   if (!is.numeric(res)) {
-    stop("Unrecognized object (model) type or predict method not in namespace")
+    stop("Unrecognized object (model) type")
   }
   if(!ice) {
     mean(res)
@@ -180,8 +179,7 @@ classification_preds <- function(model, X, ice = FALSE) {
 
 check_regression_preds <- function(model, X) {
   if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-    res <- try(predict(model, as.data.frame(X)), 
-               silent = TRUE)
+    res <- predict(model, as.data.frame(X))
   } else if ("gbm" %in% class(model)) {
     res <- predict(model, as.data.frame(X), n.trees = model$n.trees)
   } else if ("xgb.Booster" %in% class(model)) {
@@ -189,10 +187,8 @@ check_regression_preds <- function(model, X) {
   }
   
   ## Stop if incorrect object type
-  if (length(unique(res)) %in% c(1,2)) {
+  if (length(unique(res)) <= 2) {
     warning("2 or fewer unique predicted values, should type = 'classifcation'?", 
             call. = FALSE, immediate. = TRUE)
-  } else if (length(unique(res)) == 0){
-    stop("Unrecognized object (model) type or predict method not in namespace")
   }
 }
