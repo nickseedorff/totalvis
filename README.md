@@ -21,7 +21,7 @@ install_github("nickseedorff/totalvis")
 library(totalvis)
 
 ## Download the package with the vignette
-devtools::install_github("nickseedorff/totalvis", build_vignettes = T)
+install_github("nickseedorff/totalvis", build_vignettes = T)
 library(totalvis)
 
 ## View the vignette
