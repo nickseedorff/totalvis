@@ -21,7 +21,7 @@ install_github("nickseedorff/totalvis")
 library(totalvis)
 ```
 
-### Without vignette
+### With vignette
 ```{r eval = FALSE}
 install_github("nickseedorff/totalvis", build_vignettes = T)
 library(totalvis)

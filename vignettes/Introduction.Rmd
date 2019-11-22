@@ -40,10 +40,10 @@ library(totalvis)
 
 # Simulated examples
 
-Through three simulated examples we display several characters of `totalvis`. The first example addresses the idea of a 'total effect' interpretation of the principal components defined by the transformation. Following this, examples address the use of the `partial_effects` plot as a diagnostic tool and that provides further insight into the dependence patterns.
+Through three simulated examples we display several characters of `totalvis`. The first example addresses the concept of a 'total effect'. Following this, examples address the use of the `partial_effects` plot as a diagnostic tool that provides further insights into the dependence patterns.
 
 ## Total effect
-This example demonstates the 'total effect' notion of `totalvis` plots. Marginally, the covariates affect the outcome in piece-wise linear fashions. The partial depedence plots (PDPs) correctly identify the marginal impacts, while `totalvis` groups the features based on their correlation and presents a visual summary of their combined effect.
+This example demonstates the 'total effect' notion of `totalvis` plots. Marginally, the covariates affect the outcome in piece-wise linear fashions with. `totalvis` looks to group the features based on their positive correlation and describe the total impact they have on the response.
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## Generate data
@@ -66,13 +66,22 @@ par(mfrow=c(1, 1))
 ## Train the model
 mod_frame <- ModelFrame(X, y)
 knn_mod <- fit(mod_frame, model = KNNModel)
+```
 
+
+The partial depedence plots (PDPs) correctly identify the marginal effects.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Partial depedence of X1
 plot(totalvis(knn_mod, X, feature = "X1", pc_num = NULL))
 
-## Partial depedence of X1
+## Partial depedence of X2
 plot(totalvis(knn_mod, X, feature = "X2", pc_num = NULL))
+```
 
+`totalvis` groups the features based on their correlation and presents reasonable summary of their combined effect.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Total effect plot
 plot(totalvis(knn_mod, X), legend_cex = 0.9)
 
@@ -80,7 +89,7 @@ plot(totalvis(knn_mod, X), legend_cex = 0.9)
 
 ## Correlated features with different effects
 
-When using PCA to transform the training data, the assocation with the response is not taken into account. Thus, the principal components should be assessed to see if the covariates behave constructively on the outcome. We make use of the `partial_effects` plot, which serves as a diagnostic tool to check these assumptions and provides interesting insight into the depedence patterns.
+When using PCA to transform the training data, the assocation with the response is not taken into account. Thus, the principal components should be assessed to see if the covariates behave constructively on the outcome. 
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## Generate data
@@ -93,20 +102,27 @@ y = X[, 1] - X[, 2] + rnorm(1000, 0, 0.1)
 ## Train model
 gbm_mod <- gbm(y ~ ., data = data.frame(y, X), n.trees = 200, 
                distribution = "gaussian")
+```
 
+Due to contrasting effects of the two covariates, the average prediction remains near 0 throughout the range of the prinicpal component.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Total effect plot
 plot(totalvis(gbm_mod, X), legend_loc = "topleft")
+```
 
+Using a `partial_effects` plot, we take a deeper look at the depedence structure. Highlighted in this are counteractive behaviors of the two covariates, which appear to cancel each other out across the range of the principal component.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Partial effects plot
 plot(partial_effects(gbm_mod, X), legend_cex = 0.88)
-
 ```
 
 ## Correlated feature with no effect on the outcome
 
-In the final simulated example, we assess `totalvis`' ability to correctly identify inputs which are relevant to the response. To do this, we generate two correlated features, but only one acts on the outcome. To evaulate the diagnostic plot in the context of the `totalvis` curve, we make use of the `differenced = FALSE` argument. 
+In the final simulated example, we assess `totalvis`' ability to correctly identify inputs which are relevant to the response. To do this, we generate two correlated features, but only one acts on the outcome. Additionally, this example indicates the usability of `totalvis` in the classification setting. 
 
-```{r include = F,  fig.width=6.5, fig.height = 4.5}
+```{r fig.width=6.5, fig.height = 4.5}
 ## Generate data
 set.seed(2021)
 X <- MASS::mvrnorm(n = 1000, mu = c(2, 2), 
@@ -117,19 +133,27 @@ y = as.factor((X[, 1] + rnorm(1000, 0, 0.1)) > 1.5)
 
 ## Train model, plot pdp_pca
 mod <- train(X, y , method = "nnet", trace = F)
+```
 
+The response only depends on X1, while X1 is positively correlated with X2. In isolation, the 'pinplot' is not able to distiguish between the effects of correlated predictors.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Pin plot
 plot(totalvis(mod, X, pin = "X2", type = "classification"))
+```
 
+However, `partial_effects` is able to identify the relevant predictors in the model. For this example, we make use of the `differenced = FALSE` argument to generate the `partial_effects` lines `totalvis` curve.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## Partial effects plot
-plot(partial_effects(mod, X, type = "classification"), differenced = FALSE,
-     legend_loc = "topleft")
+diag_obj <- partial_effects(mod, X, type = "classification")
+plot(diag_obj, differenced = FALSE, legend_loc = "topleft")
 ```
 
 # Communities and Crimes Example
 
 ## Extrapolation error
-For some related methods, namely partial depedence plots (PDPs) and individual expectation (ICE) curves, their produceds generate observations that are far outside of the joint distribution of the traing data. An example of this can be refered below and is a common occurance with highly correlated features. 
+Before applying `totalvis` to the real data example, we present a limitation of PDPs and individual conditional expectation (ICE) curves. For both of these method, their procedures generate observations that are far outside of the joint distribution of the traing data when features are correlated; an instance of this can be refered below.
 
 ```{r fig.width=6.5, fig.height = 4.5}
 set.seed(2021)
@@ -142,7 +166,7 @@ points(rep(1.5, 500), X[, 2], col = "red")
 
 ## Feature importance and correlation
 
-Partial depedence plots are often used to visualize the effects of the most important features in black-box models. The example uses a `randomForest` model from the `randomForest` package, which has readily available measures of feature importance. We select one of the primary features, 'pctKids2Par', for further exploration. 'pctKids2Par' presents highly correlation with several other predictiors, limiting the appropriatness of PDPs and ICE curves.  
+The application uses the Community and Crimes Unnormalized Data Set, which comes the UCI Machine Learning Repository (https://archive.ics.uci.edu/ml/index.php). Our study uses 101 of the predictors and the response variable of 'murders per 100k population'. Many of the predictiors are related, with 12\% of the correlations above 0.5.
 
 ```{r  fig.width=6.5, fig.height = 4.5}
 ## Get data
@@ -171,14 +195,21 @@ outcome <- crimes$murdPerPop
 ## Train the model
 set.seed(2021)
 rf_mod <- randomForest(data, outcome, ntree = 5)
+```
 
+Visual summaries are often produced to interpret the effects of the most important features in black-box models. The example uses a `randomForest` model from the `randomForest` package, which has readily available measures of feature importance. We select one of the primary features, 'pctKids2Par', for further exploration.
 
+```{r  fig.width=6.5, fig.height = 4.5}
 ## Feature importance
 varImpPlot(rf_mod, n.var = 10, main = "Feature Importance", pt.cex = 2)
+```
+
+In this instance, 'pctKids2Par' presents highly correlation with several other predictiors, limiting the appropriatness of PDPs and ICE curves.
+
+```{r  fig.width=6.5, fig.height = 4.5}
+## Correlation
 cor_vals <- abs(cor(data[, "pctKids2Par"], 
                     data[, setdiff(colnames(data), "pctKids2Par")]))
-
-## Correlation
 hist(cor_vals, breaks = 30, xlab = "abs(correlation)", 
      main = "Correlation with pctKids2Par")
 num <- quantile(cor_vals, 0.8)
@@ -188,7 +219,7 @@ text(x = num + 0.23, y = 10, " 80th Percentile")
 
 ## totalvis plots
 
-The primary function `totalvis` is to display PDPs of specified principal components. The top contributors to the linear combination are presented in the legend, where contribution is defined by the magnitudes of the loadings. In cases such as this, there is a clear latent factor captured by the top features, income or economic status. Using this, we can interpret the impact that neighboor income levels has on the response. 
+Due to high correlations with our feature of interest, we turn to `totalvis` to interpret groups of features through their total effect. `totalvis` accomplishes this by transformations the training data with PCA, and then generating PDPs for the principal components. The top contributors to the linear combination are presented in the legend, where contribution is defined by the magnitudes of the loadings. In cases such as this, there is a clear latent factor captured by the top features, income or economic status of a neighborhood. Using this, we can interpret the impact that neighborhood income levels has on the response. 
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## totalvis plot

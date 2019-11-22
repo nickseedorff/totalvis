@@ -62,7 +62,7 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
   } else {
     legend(legend_loc, legend = c("Total Effect", load_names), 
            col = c(1, cbPalette[c(1:n_col)]), 
-           lty = 1, lwd = 3, cex = legend_cex)
+           lty = 1, lwd = c(4, rep(3, n_col)), cex = legend_cex)
   }
     
   ## Add lines for individual curves
