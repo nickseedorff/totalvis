@@ -91,7 +91,6 @@ function(object) {
   
   ## Unlist object
   unique_val <- object$unique_val
-  pc_num <- object$pc_num
   model <- object$model
   pca_object <- object$pca_object
   feature <- object$feature
@@ -100,21 +99,14 @@ function(object) {
   
   pred_func <- function(value) {
     
-    ## pc_num calculates the average over a PC, feature does it over a feature
-    if (is.null(feature)) {
-      mat_tmp <- pca_object$x
-      mat_tmp[, pc_num] <- value
-      mat_new <- rev_pca(data = mat_tmp, pca_object = pca_object)
-    } else {
-      mat_new <- data
-      mat_new[, feature] = value
-    }
+    mat_new <- data
+    mat_new[, feature] = value
 
     ## Get predictions
     if(type == "regression") {
-      regression_preds(model, mat_new)
+      regression_preds(model, mat_new, ice = TRUE)
     } else {
-      classification_preds(model, mat_new)
+      classification_preds(model, mat_new, ice = TRUE)
     }
   }
   vapply(unique_val, pred_func, FUN.VALUE = numeric(nrow(data)))
@@ -123,49 +115,58 @@ function(object) {
 #' Control flow for regression predictions
 #' @param model model object to be used for prediction
 #' @param X matrix to be used in predictions
+#' @param ice logical, idicates if predictions are needed for ice curves
 
-regression_preds <- function(model, X) {
+regression_preds <- function(model, X, ice = FALSE) {
   if(length(intersect(class(model), c("gbm", "xgb.Booster"))) == 0) {
-    res <- try(mean(predict(model, as.data.frame(X))), 
-               silent = TRUE)
+    res <- try(predict(model, as.data.frame(X)), silent = TRUE)
   } else if ("gbm" %in% class(model)) {
-    res <- mean(predict(model, as.data.frame(X), 
-                        n.trees = model$n.trees))
+    res <- predict(model, as.data.frame(X), n.trees = model$n.trees)
   } else if ("xgb.Booster" %in% class(model)) {
-    res <- mean(predict(model, X))
+    res <- predict(model, X)
   }
   
   ## Stop if incorrect object type
   if (!is.numeric(res)) stop("Unrecognized object (model) type")
-  res
+  
+  if(!ice) {
+    mean(res)
+  } else {
+    res
+  }
 }
 
 #' Control flow for classification predictions
 #' @param model model object to be used for prediction
 #' @param X matrix to be used in predictions
+#' @param ice logical, idicates if predictions are needed for ice curves
 
-classification_preds <- function(model, X) {
+classification_preds <- function(model, X, ice = FALSE) {
   diff_mods <- c("gbm", "xgb.Booster", "lm", "MLModelFit", "svm")
   if(length(intersect(class(model), diff_mods)) == 0) {
-    res <- try(mean(as.numeric(predict(model, as.data.frame(X), 
-                                       type = "prob")[, 2])), silent = TRUE)
+    res <- try(as.numeric(predict(model, as.data.frame(X), 
+                                  type = "prob")[, 2]), silent = TRUE)
   } else if ("MLModelFit" %in% class(model)) {
-    res <- mean(predict(model, X, type = "prob"))
+    res <- predict(model, X, type = "prob")
   } else if ("svm" %in% class(model)) {
-    res <- mean(attr(predict(model, X, probability = TRUE), 
-                     "probabilities")[, 2])
+    res <- attr(predict(model, X, probability = TRUE), "probabilities")[, 2]
   } else if ("lm" %in% class(model)) {
-    res <- mean(predict(model, as.data.frame(X), type = "response"))
+    res <- predict(model, as.data.frame(X), type = "response")
   } else if ("gbm" %in% class(model)) {
-    res <- mean(predict(model, as.data.frame(X), 
-                        n.trees = model$n.trees, type = "response"))
+    res <- predict(model, as.data.frame(X), n.trees = model$n.trees, 
+                   type = "response")
   } else if ("xgb.Booster" %in% class(model)) {
-    res <- mean(predict(model, X))
+    res <- predict(model, X)
   }
   
   ## Stop if incorrect object type
   if (!is.numeric(res)) stop("Unrecognized object (model) type")
-  res
+  
+  if(!ice) {
+    mean(res)
+  } else {
+    res
+  }
 }
 
 

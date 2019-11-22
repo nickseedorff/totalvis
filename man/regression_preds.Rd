@@ -4,12 +4,14 @@
 \alias{regression_preds}
 \title{Control flow for regression predictions}
 \usage{
-regression_preds(model, X)
+regression_preds(model, X, ice = FALSE)
 }
 \arguments{
 \item{model}{model object to be used for prediction}
 
 \item{X}{matrix to be used in predictions}
+
+\item{ice}{logical, idicates if predictions are needed for ice curves}
 }
 \description{
 Control flow for regression predictions

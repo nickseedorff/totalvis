@@ -1,7 +1,7 @@
 #' Generate an ICE plots over for a specified feature
-#' @param x A totalvis.object returned from a call to totalvis
+#' @param x A featice.object returned from a call to totalvis
 #' @param center Logical, produces centered ice plots
-#' @param rug Adds a rug representation of the principal component
+#' @param rug Adds a rug of the feature of intervest
 #' @param plot_frac Fraction of individual conditional expectation curves to plot
 #' @param legend_cex Character expansion factor for the legend
 #' @param ... Additional optional arguments to be passed to plot, accepts xlab or main as arguments

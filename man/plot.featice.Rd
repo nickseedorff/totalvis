@@ -8,11 +8,11 @@
   legend_cex = 1, ...)
 }
 \arguments{
-\item{x}{A totalvis.object returned from a call to totalvis}
+\item{x}{A featice.object returned from a call to totalvis}
 
 \item{center}{Logical, produces centered ice plots}
 
-\item{rug}{Adds a rug representation of the principal component}
+\item{rug}{Adds a rug of the feature of intervest}
 
 \item{plot_frac}{Fraction of individual conditional expectation curves to plot}
 

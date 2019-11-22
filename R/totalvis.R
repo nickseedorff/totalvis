@@ -23,13 +23,19 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 50,
   }
   
   ## Warning of pc_num and feature are supplied
-  if (!is.null(pc_num) & !is.null(feature)) {
-    warning("Feature input overrides pc_num. Plotting this object will return
-             a standard partial depedence or ice plot.")
+  if (!is.null(pc_num) & !is.null(feature) & !ice) {
+    message("Feature input overrides pc_num. Plotting this object will return
+            a standard partial depedence plot.")
+  }
+  
+  ## Can only create ice curves if feature is includes
+  if (is.null(feature) & ice) {
+    stop("A feature must be given when ice = TRUE")
   }
   
   ## Can only create ice curves if pin is null
-  if (!is.null(pin) & ice) {
+  if ((!is.null(pin) | !is.null(pc_num)) & ice) {
+    pin <- NULL
     message("ice = TRUE sets pc_num and pin to NULL")
   }
   
@@ -86,7 +92,6 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 50,
   if (ice) {
     class_use <- "ice"
     pred_ice <- structure(list(unique_val = sort(unique_val), 
-                               pc_num = pc_num, 
                                model = model, pca_object = pca_dat,
                                feature = feature, data = mat,
                                type = type), 
@@ -109,7 +114,7 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 50,
   if (is.null(feature) & is.null(pin) & !ice) {
     structure(list(pred_df = pred_df, pc_num = pc_num, 
     							 pca_object = pca_dat), class = "totalvis")
-  } else if (ice & !is.null(feature)){
+  } else if (ice & (!is.null(feature) | !is.null(pc_num))){
     structure(list(avg_pred = pred_df$avg_pred, xvals = pred_df$x_vals,
                    ice_mat = ice_mat, data = mat, feature = feature), 
               class = "featice")  

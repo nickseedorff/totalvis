@@ -4,12 +4,14 @@
 \alias{classification_preds}
 \title{Control flow for classification predictions}
 \usage{
-classification_preds(model, X)
+classification_preds(model, X, ice = FALSE)
 }
 \arguments{
 \item{model}{model object to be used for prediction}
 
 \item{X}{matrix to be used in predictions}
+
+\item{ice}{logical, idicates if predictions are needed for ice curves}
 }
 \description{
 Control flow for classification predictions

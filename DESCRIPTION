@@ -1,6 +1,6 @@
 Package: totalvis
 Type: Package
-Title: totalvis: A Principal Components Approach to Visualizing Total Effects in Black Box MOdels
+Title: totalvis: A Principal Components Approach to Visualizing Total Effects in Black Box Models
 Version: 0.0.0.9000
 Date: 2019-09-30
 Author: Nick Seedorff
