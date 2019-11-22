@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-This vignette demonstrates base usage of the `totalvis` by reproducing all figures used in the associated paper, as well a few additional applications `totalvis` visualizes total effects in black box models by grouping correlated features through a PCA transformation and then evaulates the partial dependence of the principal components. Functionality and use are presented through several simulated examples and a real data application using the Communities and Crime Unnormalized data set from the UCI respository.   
+`totalvis` is a model agnostic vizualization tool used to summarize complex relationships in black-box models. The package relies on a PCA based transformation of the training data to group correlated features and display their total effect on the response. This vignette demonstrates base usage of 'totalvis' by reproducing all figures used in the associated paper, as well as introducing a few additional components.
 
 The vignette makes use of the following packages:
 
@@ -33,13 +33,14 @@ library(caret)
 library(kknn)
 #devtools::install_github("nickseedorff/totalvis", 
 #                       auth = "8d5a20d386acf526450bff89472f1f4b7482444e", 
-#                       build_vignettes = T,
-#                       build_opts = c("--no-resave-data", "--no-manual"))
+#                       build_vignettes = T)
 #devtools::install_github("nickseedorff/totalvis")
 library(totalvis)
 ```
 
 # Simulated examples
+
+Through three simulated examples we display several characters of `totalvis`. The first example addresses the idea of a 'total effect' interpretation of the principal components defined by the transformation. Following this, examples address the use of the `partial_effects` plot as a diagnostic tool and that provides further insight into the dependence patterns.
 
 ## Total effect
 This example demonstates the 'total effect' notion of `totalvis` plots. Marginally, the covariates affect the outcome in piece-wise linear fashions. The partial depedence plots (PDPs) correctly identify the marginal impacts, while `totalvis` groups the features based on their correlation and presents a visual summary of their combined effect.
@@ -101,7 +102,7 @@ plot(partial_effects(gbm_mod, X), legend_cex = 0.88)
 
 ```
 
-## Correlated feature with no effect on the outcome; classification
+## Correlated feature with no effect on the outcome
 
 In the final simulated example, we assess `totalvis`' ability to correctly identify inputs which are relevant to the response. To do this, we generate two correlated features, but only one acts on the outcome. To evaulate the diagnostic plot in the context of the `totalvis` curve, we make use of the `differenced = FALSE` argument. 
 
@@ -137,7 +138,6 @@ X <- MASS::mvrnorm(n = 500, mu = c(2, 2),
 colnames(X) <- c("X1", "X2")
 plot(X)
 points(rep(1.5, 500), X[, 2], col = "red")
-
 ```
 
 ## Feature importance and correlation
@@ -188,17 +188,27 @@ text(x = num + 0.23, y = 10, " 80th Percentile")
 
 ## totalvis plots
 
+The primary function `totalvis` is to display PDPs of specified principal components. The top contributors to the linear combination are presented in the legend, where contribution is defined by the magnitudes of the loadings. In cases such as this, there is a clear latent factor captured by the top features, income or economic status. Using this, we can interpret the impact that neighboor income levels has on the response. 
+
 ```{r fig.width=6.5, fig.height = 4.5}
 ## totalvis plot
 df <- plot(totalvis(rf_mod, data), num_load = 8, legend_cex = 1.0)
 knitr::kable(df, row.names = F, align = "lc")
+```
 
+To associated the total effect of a group of predictors to a covariate of interest, we look towards the 'pinplot'. We now plot the total effect against a more interpretable x-axis. Comparing this to a partial dependence plot of the same feature, we see a much larger range of the predicted values.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## pinplot
 plot(totalvis(rf_mod, data, pin = "pctKids2Par"))
 
 ## pdp
 plot(totalvis(rf_mod, data, feature = "pctKids2Par", pc_num = NULL))
+```
 
+As previously discussed, their are a variety of insight to be taken for the `partial_effects` plot. In these instance, the lines appear to be shifting in unison and the underlying assumptions of `totalvis` appear to be reasonable. The default is the plot a standardized or 'differenced' version of the predictions, but lines can also be added to the original `totalvis` plot.
+
+```{r fig.width=6.5, fig.height = 4.5}
 ## partial_effects (default)
 diag_obj <- partial_effects(rf_mod, data, num_load = 8)
 plot(diag_obj, legend_loc = "left", legend_cex = 0.74)
@@ -209,6 +219,14 @@ plot(diag_obj, differenced = FALSE, legend_loc = "topleft", legend_cex = 0.9)
 
 ## Additionally functionality
 
+Given the reliance on the package to PCA, we offer a wrapper for the `screeplot` function that works with several of the `totalvis` objects.
+
+```{r fig.width=6.5, fig.height = 4.5}
+## Wrapper to scree plot
+scree_plot(totalvis(rf_mod, data))
+```
+
+As a final addition to the package, we offer simple ICE curves. The default is to center the curves so they all have the same starting value and differences in tracjeories are more obvious. This can be changed with the `center = FALSE` argument
 ```{r fig.width=6.5, fig.height = 4.5}
 ## ice plot (default is centered)
 vis_obj <- totalvis(rf_mod, data, ice = T, feature = "pctKids2Par")
@@ -216,7 +234,4 @@ plot(vis_obj, legend_cex = 1.0)
 
 ## ice plot (uncentered)
 plot(vis_obj, legend_cex = 1.0, center = FALSE)
-
-## Wrapper to scree plot
-scree_plot(totalvis(rf_mod, data))
 ```
