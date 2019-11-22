@@ -127,7 +127,9 @@ regression_preds <- function(model, X, ice = FALSE) {
   }
   
   ## Stop if incorrect object type
-  if (!is.numeric(res)) stop("Unrecognized object (model) type")
+  if (!is.numeric(res)) {
+    stop("Unrecognized object (model) type or predict method not in namespace")
+  }
   
   if(!ice) {
     mean(res)
@@ -160,8 +162,9 @@ classification_preds <- function(model, X, ice = FALSE) {
   }
   
   ## Stop if incorrect object type
-  if (!is.numeric(res)) stop("Unrecognized object (model) type")
-  
+  if (!is.numeric(res)) {
+    stop("Unrecognized object (model) type or predict method not in namespace")
+  }
   if(!ice) {
     mean(res)
   } else {
