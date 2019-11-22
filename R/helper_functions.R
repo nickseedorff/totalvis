@@ -189,8 +189,10 @@ check_regression_preds <- function(model, X) {
   }
   
   ## Stop if incorrect object type
-  if (length(unique(res)) <= 2) {
+  if (length(unique(res)) %in% c(1,2)) {
     warning("2 or fewer unique predicted values, should type = 'classifcation'?", 
             call. = FALSE, immediate. = TRUE)
+  } else if (length(unique(res)) == 0){
+    stop("Unrecognized object (model) type or predict method not in namespace")
   }
 }
