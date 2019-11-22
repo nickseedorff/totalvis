@@ -1,6 +1,7 @@
 ---
 title: "Introduction to totalvis"
 author: "Nick Seedorff and Grant Brown"
+date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -31,7 +32,9 @@ library(nnet)
 library(caret)
 library(kknn)
 #devtools::install_github("nickseedorff/totalvis", 
-#                         auth = "8d5a20d386acf526450bff89472f1f4b7482444e")
+#                       auth = "8d5a20d386acf526450bff89472f1f4b7482444e", 
+#                       build_vignettes = T,
+#                       build_opts = c("--no-resave-data", "--no-manual"))
 #devtools::install_github("nickseedorff/totalvis")
 library(totalvis)
 ```
