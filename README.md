@@ -1,7 +1,26 @@
-# Thesis_work
+# totalvis
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Thesis_work is to ...
+`totalvis` is a model agnostic vizualization tool used to summarize complex relationships in black-box models. The package relies on a PCA based transformation of the training data to group correlated features and display their total effect on the response. The 'Introduction' vignette demonstrates base usage of 'totalvis' by reproducing all figures used in the associated paper, as well as introducing a few additional components.
+
+## Installation
+
+```{r eval = FALSE}
+## Prerequisites
+install.packages("devtools")
+library("devtools")
+
+## Download the package without the vignette
+install_github("nickseedorff/totalvis")
+library(totalvis)
+
+## Download the package with the vignette
+devtools::install_github("nickseedorff/totalvis", build_vignettes = T)
+library(totalvis)
+
+## View the vignette
+vignette("Introduction", package = "totalvis")
+```
 
