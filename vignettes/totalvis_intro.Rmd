@@ -1,0 +1,116 @@
+---
+title: "Introduction to totalvis"
+author: "Nick Seedorff and Grant Brown"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to totalvis}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette illustrates the base usage of totalvis by reproducing all examples
+used in the totalvis paper.
+
+# Simulated examples
+
+## Packages
+
+```{r message=FALSE}
+library(MASS)
+library(randomForest)
+library(MachineShop)
+library(gbm)
+library(e1071)
+library(nnet)
+library(caret)
+library(kknn)
+#devtools::install_github("nickseedorff/totalvis", 
+#                         auth = "8d5a20d386acf526450bff89472f1f4b7482444e")
+library(totalvis)
+```
+
+
+## Total effect
+
+```{r}
+## Generate data
+set.seed(2021)
+X <- mvrnorm(n = 1000, mu = c(1, 1.2), 
+                   Sigma = matrix(c(1, 0.2, 0.2, 1), nrow = 2))
+colnames(X) <- c("X1", "X2")
+X_new <- cbind(X[, 1], as.numeric(X[, 1] > 0.5), 
+               as.numeric(X[, 2] < 0.5), X[, 2])
+
+## Each covariate is piecewise linear
+y = 2 * X_new[, 1] * (1 - X_new[, 2]) + X_new[, 2] + X_new[, 3] + 
+  2 * X_new[, 4] * (1 - X_new[, 3]) + rnorm(1000, 0, 0.2)
+
+par(mfrow=c(1, 2))
+plot(X[, 1], y, xlab = "X1")
+plot(X[, 2], y, xlab = "X2")
+par(mfrow=c(1, 1))
+
+## Train the model
+mod_frame <- ModelFrame(X, y)
+knn_mod <- fit(mod_frame, model = KNNModel)
+
+## Partial depedence of X1
+plot(totalvis(knn_mod, X, feature = "X1", pc_num = NULL))
+
+## Partial depedence of X1
+plot(totalvis(knn_mod, X, feature = "X2", pc_num = NULL))
+
+## Total effect plot
+plot(totalvis(knn_mod, X), legend_cex = 0.9)
+
+```
+
+## Correlated features with different effects
+
+```{r}
+## Generate data
+set.seed(2021)
+X <- as.data.frame(mvrnorm(n = 1000, mu = c(2, 2), 
+                           Sigma = matrix(c(1, 0.9, 0.9, 1), nrow = 2)))
+colnames(X) <- c("X1", "X2")
+y = X[, 1] - X[, 2] + rnorm(1000, 0, 0.1) 
+
+## Train model
+gbm_mod <- gbm(y ~ ., data = data.frame(y, X), n.trees = 200, 
+               distribution = "gaussian")
+
+## Total effect plot
+plot(totalvis(gbm_mod, X), legend_loc = "topleft")
+
+## Partial effects plot
+plot(partial_effects(gbm_mod, X), legend_cex = 0.88)
+
+```
+
+## Correlated feature with no effect on the outcome; classification
+
+```{r}
+## Generate data
+set.seed(2021)
+X <- MASS::mvrnorm(n = 1000, mu = c(2, 2), 
+                   Sigma = matrix(c(1, 0.8, 0.8, 1), nrow = 2))
+colnames(X) <- c("X1", "X2")
+
+y = as.factor((X[, 1] + rnorm(1000, 0, 0.1)) > 1.5)  
+
+## Train model, plot pdp_pca
+mod <- train(X, y , method = "nnet", trace = F)
+
+## Pin plot
+plot(totalvis(mod, X, pin = "X2", type = "classification"))
+
+## Partial effects plot
+plot(partial_effects(mod, X, type = "classification"), differenced = F,
+     legend_loc = "topleft")
+
+```
+

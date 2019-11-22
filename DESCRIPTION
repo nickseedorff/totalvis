@@ -1,14 +1,30 @@
 Package: totalvis
 Type: Package
-Title: Matrix decompositions for visualizing effects of related features in black-box models
+Title: totalvis: A Principal Components Approach to Visualizing Total Effects in Black Box MOdels
 Version: 0.0.0.9000
 Date: 2019-09-30
 Author: Nick Seedorff
 Maintainer: Nick Seedorff <nickseedorff@gmail.com>
-Description: Visualization of blackbox methods using PCA.
+Description: A principal components based extension to partial depedence plots 
+  (PDPS) that visually summarizes the total effects of groups of predictors in 
+  black-box models. The method uses PCA to explore the structure of the training 
+  data, but does not intend for PCA to be a part of the model under 
+  investigation.
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 Imports:
     graphics,
     stats
+Suggests: 
+    knitr, 
+    rmarkdown, 
+    randomForest, 
+    nnet, 
+    kknn, 
+    caret,
+    MachineShop,
+    MASS,
+    gbm,
+    e1071
+VignetteBuilder: knitr
