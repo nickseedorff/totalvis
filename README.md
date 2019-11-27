@@ -3,8 +3,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`totalvis` is a model agnostic vizualization tool used to summarize complex relationships in black-box models. The package relies on a PCA based transformation of the training data to group correlated features and display their total effect on the response. The 'Introduction' vignette demonstrates base usage of 'totalvis' by reproducing all figures used in the associated paper, as well as introducing a few additional components.
-
+`totalvis` is a model agnostic vizualization tool used to summarize complex relationships in black-box models. The package relies on a PCA based transformation of the training data to group correlated features and display their total effect on the response. At a high level, the method generates partial dependence plots (PDPs) for the principal components and provides interpretable insight into the importance of the features. The 'Introduction' vignette demonstrates base usage of 'totalvis' by reproducing all figures used in the associated paper, as well as introducing a few additional components.
 
 ## Installation
 
