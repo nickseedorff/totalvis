@@ -4,15 +4,13 @@
 \alias{plot.partialvis}
 \title{Diagnostic plot for totalvis function}
 \usage{
-\method{plot}{partialvis}(x, differenced = TRUE, lag = FALSE,
+\method{plot}{partialvis}(x, differenced = TRUE,
   legend_loc = "topleft", rug = TRUE, legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A diagvis.object returned from a call to totalvis_diag}
 
 \item{differenced}{logical, plot differences instead of true predictions}
-
-\item{lag}{logical, use the previous principal component value for reference predictions}
 
 \item{legend_loc}{Legend placement; 'topleft', 'topright', 'bottom', ...}
 
