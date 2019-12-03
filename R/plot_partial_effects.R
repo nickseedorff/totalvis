@@ -33,9 +33,8 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
   
   ## Plot lines against
   if (differenced) {
-    pred_mat <- sweep(pred_mat, 1, 
-                      c(0, (overall_pred[1:(length(overall_pred) - 1)])))
-    plot(x_vec, rep(0, length(x_vec)), 
+    pred_mat <- sweep(pred_mat, 1, (overall_pred[-(length(overall_pred)]))
+    plot(x_vec, rep(0, length(x_vec) - 1), 
          ylim = c(min(pred_mat), max(pred_mat)), 
          type = "l", xlab = defaults[["xlab"]], 
          main = defaults[["main"]],
