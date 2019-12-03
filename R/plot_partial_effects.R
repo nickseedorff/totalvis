@@ -57,7 +57,7 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
   
   ## Add rug
   if (rug) {
-    rug(pca_object$x[, pc_num])
+    rug(pca_object$x[, pc_num], quiet = TRUE)
   }
   
   ## Legend individual curves curves
