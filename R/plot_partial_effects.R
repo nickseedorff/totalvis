@@ -44,7 +44,7 @@ plot.partialvis <- function(x, differenced = TRUE, lag = FALSE,
          lwd = 3)
   } else if (differenced) {
     pred_mat <- sweep(pred_mat, 1, 
-                      c(0, (overall_pred[1:length(overall_pred) - 1])))
+                      c(0, (overall_pred[1:(length(overall_pred) - 1)])))
     plot(x_vec, rep(0, length(x_vec)), 
          ylim = c(min(pred_mat), max(pred_mat)), 
          type = "l", xlab = defaults[["xlab"]], 
