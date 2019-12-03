@@ -37,7 +37,9 @@ plot.partialvis <- function(x, differenced = TRUE, legend_loc = "topleft",
                       c(0, (overall_pred[1:(length(overall_pred) - 1)])))
     ## Remove first row, only needed for non-differenced plots
     pred_mat <- pred_mat[-1, ]
-    plot(x_vec, rep(0, length(x_vec) - 1), 
+    x_vec <- xvec[-length(x_vec)]
+    
+    plot(x_vec, rep(0, length(x_vec)), 
          ylim = c(min(pred_mat), max(pred_mat)), 
          type = "l", xlab = defaults[["xlab"]], 
          main = defaults[["main"]],
