@@ -136,7 +136,7 @@ Using a `partial_effects` plot, we take a deeper look at the dependence structur
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## Partial effects plot
-plot(partial_effects(gbm_mod, X), legend_cex = 0.88)
+plot(partial_effects(gbm_mod, X), legend_cex = 0.82)
 ```
 
 ## Correlated feature with no effect on the outcome
@@ -167,7 +167,7 @@ However, `partial_effects` is able to identify the relevant predictors in the mo
 ```{r fig.width=6.5, fig.height = 4.5}
 ## Partial effects plot
 diag_obj <- partial_effects(mod, X, type = "classification")
-plot(diag_obj, differenced = FALSE, legend_loc = "topleft")
+plot(diag_obj, differenced = FALSE, legend_loc = "right")
 ```
 
 # Communities and Crimes Example
@@ -246,12 +246,12 @@ plot(totalvis(rf_mod, X, pin = "pctKids2Par"))
 plot(totalvis(rf_mod, X, feature = "pctKids2Par", pc_num = NULL))
 ```
 
-As previously shown, there are a variety of insights to be gleaned for the `partial_effects` plot. In this instance, the lines appear to be shifting in unison and the underlying assumptions of `totalvis` appear to be reasonable. The default is the plot a standardized or 'differenced' version of the predictions, but partial effect lines can also be added to the original `totalvis` plot.
+As previously shown, there are a variety of insights to be gleaned for the `partial_effects` plot. In this instance, shifting any covariate leads to an increase in the predicted value (except for a small range of pctPoverty), thus the underlying assumptions of `totalvis` appear to be reasonable. Additionally, the magnitudes of the partial effect lines offer results consistent with the feature importance plot. For `partial_effect`, the default is to plot a standardized or 'differenced' version of the predictions, but partial effect lines can also be added to the original `totalvis` plot.
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## partial_effects (default)
 diag_obj <- partial_effects(rf_mod, X, num_load = 8)
-plot(diag_obj, legend_loc = "left", legend_cex = 0.74)
+plot(diag_obj, legend_loc = "topleft", legend_cex = 0.72)
 
 ## partial_effects (non-differenced)
 plot(diag_obj, differenced = FALSE, legend_loc = "topleft", legend_cex = 0.9)
