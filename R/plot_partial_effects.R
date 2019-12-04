@@ -52,13 +52,14 @@ plot.partialvis <- function(x, differenced = TRUE, lag = FALSE,
          ylab = expression(y[partial] - y[hat]), 
          lwd = 3)
   } else {
-    pred_mat[1, ] <- overall_pred[1]
+    pred_mat <- pred_mat[-1, ]
     plot(x_vec, overall_pred, 
          ylim = c(min(pred_mat, overall_pred), c(max(pred_mat, overall_pred))), 
          type = "l", xlab = defaults[["xlab"]], 
          main = defaults[["main"]],
          ylab = "yhat", 
          lwd = 4)
+    x_vec <- x_vec[-length(x_vec)]
   }
   
   ## Add rug
