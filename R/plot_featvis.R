@@ -18,7 +18,7 @@ function(x, rug = TRUE, ...) {
                                  optionals[["xlab"]], feature),
                    main = ifelse("main" %in% names(optionals), 
                                  optionals[["main"]], 
-                                 paste0("PDP Plot of ", feature)))
+                                 paste0("PDP of ", feature)))
   
   ## Plot pdp
   plot(pred_df$x_vals, pred_df$avg_pred, type = "l", 
