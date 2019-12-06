@@ -25,9 +25,6 @@ knitr::opts_chunk$set(echo = TRUE)
 Install `totalvis`:
 
 ```{r message=FALSE}
-#devtools::install_github("nickseedorff/totalvis", 
-#                       auth = "8d5a20d386acf526450bff89472f1f4b7482444e", 
-#                       build_vignettes = T)
 #devtools::install_github("nickseedorff/totalvis")
 library(totalvis)
 ```
