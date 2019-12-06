@@ -159,7 +159,7 @@ To relate the total effect of  group of predictors to a covariate of interest, w
 plot(totalvis(mod, X, pin = "X2", type = "classification"))
 ```
 
-However, `partial_effects` is able to identify the relevant predictors in the model. For this example, we make use of the `differenced = FALSE` argument to add the `partial_effects` lines to the 'total effect' curve. At all points across the range of the principal component, the partial effect curve of X1 mirrors the total effect, suggesting that X2 has little influence on the predictions. 
+However, `partial_effects` is able to identify the relevant predictors in the model. For this example, we make use of the `differenced = FALSE` argument to add the `partial_effects` lines to the 'total effect' curve. At all points across the range of the principal component, the partial effect curve of X2 mirrors the total effect, suggesting that X2 has little influence on the predictions (because shifting X2 had little impact on the average prediction). 
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## Partial effects plot
@@ -243,15 +243,12 @@ plot(totalvis(rf_mod, X, pin = "pctKids2Par"))
 plot(totalvis(rf_mod, X, feature = "pctKids2Par", pc_num = NULL))
 ```
 
-As previously shown, there are a variety of insights to be gleaned for the `partial_effects` plot. In this instance, shifting any covariate leads to an increase in the predicted value (except for a small range of pctPoverty), thus the underlying assumptions of `totalvis` appear to be reasonable. Additionally, the magnitudes of the partial effect lines offer results consistent with the feature importance plot. For `partial_effect`, the default is to plot a standardized or 'differenced' version of the predictions, but partial effect lines can also be added to the original `totalvis` plot.
+As previously shown, there are a variety of insights to be gleaned for the `partial_effects` plot. In this instance, shifting any covariate leads to an increase in the predicted value (except for a small range of pctPoverty), thus the underlying assumptions of `totalvis` appear to be reasonable. Additionally, the magnitudes of the partial effect lines offer results consistent with the feature importance plot. For `partial_effect`, the default is to plot a standardized or 'differenced' version of the predictions.
 
 ```{r fig.width=6.5, fig.height = 4.5}
 ## partial_effects (default)
 diag_obj <- partial_effects(rf_mod, X, num_load = 8)
 plot(diag_obj, legend_loc = "topleft", legend_cex = 0.72)
-
-## partial_effects (non-differenced)
-plot(diag_obj, differenced = FALSE, legend_loc = "topleft", legend_cex = 0.9)
 ```
 
 ## Additional functionality
