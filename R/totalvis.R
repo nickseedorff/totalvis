@@ -41,7 +41,7 @@ function(model, X, type = "regression", pc_num = 1, samp_size = 50,
   
   ## convert to a matrix if input is a dataframe
   if (!class(X) %in% c("matrix", "data.frame")) {
-    stop("Input data must be a numeric matrix of data.frame of numeric columns")
+    stop("Input data must be a numeric matrix or data.frame of numeric columns")
   } else if (class(X) == "data.frame") {
     if(!all(apply(X, 2, is.numeric))) {
       stop("Could not convert input to a numeric matrix.")
