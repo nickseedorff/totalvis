@@ -4,8 +4,14 @@
 \alias{plot.partialvis}
 \title{Diagnostic plot for totalvis function}
 \usage{
-\method{plot}{partialvis}(x, differenced = TRUE,
-  legend_loc = "topleft", rug = TRUE, legend_cex = 1, ...)
+\method{plot}{partialvis}(
+  x,
+  differenced = TRUE,
+  legend_loc = "topleft",
+  rug = TRUE,
+  legend_cex = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{A diagvis.object returned from a call to totalvis_diag}

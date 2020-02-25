@@ -4,8 +4,15 @@
 \alias{plot.totalvis}
 \title{Generate a partial depedence plot for a specified principal component}
 \usage{
-\method{plot}{totalvis}(x, num_load = 5, return_res = TRUE,
-  legend_loc = NULL, rug = TRUE, legend_cex = 1, ...)
+\method{plot}{totalvis}(
+  x,
+  num_load = 5,
+  return_res = TRUE,
+  legend_loc = NULL,
+  rug = TRUE,
+  legend_cex = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{A totalvis.object returned from a call to totalvis}

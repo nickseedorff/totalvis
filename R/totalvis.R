@@ -1,4 +1,4 @@
-#' Creat an object for visiualing pdp plots for a principal component
+#' Create an object for visualizing pdp plots for a principal component
 #' @param model A fitted model object of an appropriate class
 #' @param X Design matrix that the object was trained on
 #' @param type Outcome type, either 'classification' (binary) or 'regression'

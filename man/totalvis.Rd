@@ -2,10 +2,18 @@
 % Please edit documentation in R/totalvis.R
 \name{totalvis}
 \alias{totalvis}
-\title{Creat an object for visiualing pdp plots for a principal component}
+\title{Create an object for visualizing pdp plots for a principal component}
 \usage{
-totalvis(model, X, type = "regression", pc_num = 1, samp_size = 50,
-  feature = NULL, pin = NULL, ice = FALSE)
+totalvis(
+  model,
+  X,
+  type = "regression",
+  pc_num = 1,
+  samp_size = 50,
+  feature = NULL,
+  pin = NULL,
+  ice = FALSE
+)
 }
 \arguments{
 \item{model}{A fitted model object of an appropriate class}
@@ -28,5 +36,5 @@ totalvis(model, X, type = "regression", pc_num = 1, samp_size = 50,
 A pdp style plot of the specified principal component
 }
 \description{
-Creat an object for visiualing pdp plots for a principal component
+Create an object for visualizing pdp plots for a principal component
 }

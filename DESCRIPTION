@@ -12,7 +12,7 @@ Description: A principal components based extension to partial depedence plots
   investigation.
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Imports:
     graphics,
     stats

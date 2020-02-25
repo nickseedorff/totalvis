@@ -5,8 +5,14 @@
 \title{Diagnostic plot for assessing effects of individual features on a principal 
 component}
 \usage{
-partial_effects(model, X, pc_num = 1, samp_size = 20, num_load = 5,
-  type = "regression")
+partial_effects(
+  model,
+  X,
+  pc_num = 1,
+  samp_size = 20,
+  num_load = 5,
+  type = "regression"
+)
 }
 \arguments{
 \item{model}{A fitted model object to visualize}

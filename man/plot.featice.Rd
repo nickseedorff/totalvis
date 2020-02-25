@@ -4,8 +4,7 @@
 \alias{plot.featice}
 \title{Generate an ICE plots over for a specified feature}
 \usage{
-\method{plot}{featice}(x, center = TRUE, rug = TRUE, plot_frac = 0.1,
-  legend_cex = 1, ...)
+\method{plot}{featice}(x, center = TRUE, rug = TRUE, plot_frac = 0.1, legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{A featice.object returned from a call to totalvis}
